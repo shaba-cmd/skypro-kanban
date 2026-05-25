@@ -1,16 +1,23 @@
+import { columnTitleList } from "../../data"
 import Column from "../Column/Column"
 
-function Main () {
+function Main ({ loading }) {
     return (
-        <main class="main">
-            <div class="container">   
-                <div class="main__block">
-                    <div class="main__content">
-                        <Column />				
-                        <Column />	
-                        <Column />	
-                        <Column />	
-                        <Column />	
+        <main className="main">
+            <div className="container">   
+                <div className="main__block">
+                    <div className="main__content">
+                        {loading ? 'Данные загружаются...' :
+                            columnTitleList.map((el) => {
+                                return (<div className="main__column column">
+                                            <div className="column__title">
+                                                <p>{el.status}</p>
+                                            </div>
+
+                                            <Column />
+                                        </div>)
+                            })
+                        }
                     </div> 
                 </div>
             </div>

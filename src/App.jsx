@@ -3,36 +3,29 @@ import PopNewCard from './components/PopNewCard/PopNewCard'
 import PopBrowse from './components/PopBrowse/PopBrowse'
 import Header from './components/Header/Header'
 import Main from './components/Main/Main'
+import PopExit from './components/PopExit/PopExit'
+import { useEffect, useState } from 'react'
 
 function App() {
+  const [loading, setLoading] = useState(true) 
+
+  useEffect(() => {
+      setTimeout(() => {
+          setLoading(false)
+      }, 2000)
+  }, [])
+
   return (
     <>
-      <div class="wrapper">
-
-        <div class="pop-exit" id="popExit">
-          <div class="pop-exit__container">
-            <div class="pop-exit__block">
-              <div class="pop-exit__ttl">
-                <h2>Выйти из аккаунта?</h2>
-              </div>
-              <form class="pop-exit__form" id="formExit" action="#">
-                <div class="pop-exit__form-group">
-                  <button class="pop-exit__exit-yes _hover01" id="exitYes"><a href="modal/signin.html">Да, выйти</a> </button>
-                  <button class="pop-exit__exit-no _hover03" id="exitNo"><a href="main.html">Нет, остаться</a> </button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-
+      <div className="wrapper">        
+        <Header />
+        <PopExit />
         <PopNewCard />
         <PopBrowse />
-        <Header />
-        <Main />
-		
-    </div>
-
-    <script src="js/script.js"></script>
+        <Main 
+          loading={loading}
+        />
+      </div>
     </>
   )
 }

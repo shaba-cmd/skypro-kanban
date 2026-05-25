@@ -78,7 +78,6 @@ body {
   color: #FFFFFF;
 }
 
-.pop-user-set:target,
 .pop-exit:target,
 .pop-new-card:target,
 .pop-browse:target {
@@ -763,6 +762,7 @@ body {
   font-size: 14px;
   line-height: 20px;
   color: #565EEF;
+  cursor: pointer;
 }
 .header__user::after {
   content: "";
@@ -777,7 +777,7 @@ body {
   padding: 0;
 }
 .header__pop-user-set {
-  display: none;
+  display: block;
   position: absolute;
   top: 61px;
   right: 0;
@@ -790,6 +790,11 @@ body {
   padding: 34px;
   text-align: center;
   z-index: 2;
+}
+
+.pop-user-set__exit {
+  cursor: pointer;
+  color: #565EEF;
 }
 
 .main {
