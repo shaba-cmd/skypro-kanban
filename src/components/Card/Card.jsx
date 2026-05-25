@@ -1,4 +1,4 @@
-function MainCard () {
+function Card () {
     return (
         <div class="cards">
             <div class="cards__item">
@@ -184,4 +184,4 @@ function MainCard () {
     )
 }
 
-export default MainCard
+export default Card

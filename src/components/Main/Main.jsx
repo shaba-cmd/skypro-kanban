@@ -1,4 +1,4 @@
-import MainColumn from "../Column/MainColumn"
+import Column from "../Column/Column"
 
 function Main () {
     return (
@@ -6,11 +6,11 @@ function Main () {
             <div class="container">   
                 <div class="main__block">
                     <div class="main__content">
-                        <MainColumn />				
-                        <MainColumn />	
-                        <MainColumn />	
-                        <MainColumn />	
-                        <MainColumn />	
+                        <Column />				
+                        <Column />	
+                        <Column />	
+                        <Column />	
+                        <Column />	
                     </div> 
                 </div>
             </div>
