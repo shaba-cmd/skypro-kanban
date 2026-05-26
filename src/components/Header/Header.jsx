@@ -16,10 +16,8 @@ function Header () {
 					</div>
 					<nav className="header__nav">
 						<button className="header__btn-main-new _hover01" id="btnMainNew"><a href="#popNewCard">Создать новую задачу</a></button>
-						<p className='header__user _hover02' onClick={() => {setModal(true)}}>Ivan Ivanov</p>
-						{modal && <PopUser 
-							setModal={setModal} 
-						/>}
+						<p className='header__user _hover02' onClick={() => {modal ? setModal(false) : setModal(true)}}>Ivan Ivanov</p>
+						{modal && <PopUser />}
 					</nav>					
 				</div>
 			</div>			
