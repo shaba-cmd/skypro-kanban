@@ -1,3 +1,4 @@
+import { columnTitleList } from "../../data"
 import Column from "../Column/Column"
 
 function Main ({ loading }) {
@@ -6,9 +7,9 @@ function Main ({ loading }) {
             <div className="container">   
                 <div className="main__block">
                     <div className="main__content">
-                        <div className="cards">
-                            {loading ? 'Данные загружаются...' : <Column />}
-                        </div>
+                        {loading 
+                            ? 'Данные загружаются...' 
+                            : columnTitleList.map((el) => <Column status={el.status}/>) }
                     </div> 
                 </div>
             </div>

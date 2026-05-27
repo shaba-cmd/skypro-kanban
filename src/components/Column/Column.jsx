@@ -1,13 +1,16 @@
 import { cardList } from "../../data.js";
 import Card from "../Card/Card"
 
-function Column () {
-    return (cardList.map((el) => {
-                return (
-                <div className="main__column column">
-                    <div className="column__title">
-                        <p>{el.status}</p>
-                    </div>
+function Column ({ status }) {
+    return (
+        <div className="main__column column">
+            <div className="column__title">
+                <p>{status}</p>
+            </div>
+
+            <div className="cards">
+                {cardList.map((el) => {
+                    return (
                         <Card 
                             key={el.id}
                             theme={el.theme}
@@ -15,8 +18,10 @@ function Column () {
                             date={el.date}
                             status={el.status}
                         />
-                </div>)
-            })
+                    );
+                })}
+            </div>
+        </div>
     )
 }
 
