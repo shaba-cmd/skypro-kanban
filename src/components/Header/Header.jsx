@@ -1,20 +1,23 @@
+import { useState } from "react";
 import PopUser from "../PopUser/PopUser";
 
 function Header () {
+	const [modal, setModal] = useState(false)
+
     return (
-        <header class="header">
-			<div class="container">
-				<div class="header__block">
-					<div class="header__logo _show _light">
+        <header className="header">
+			<div className="container">
+				<div className="header__block">
+					<div className="header__logo _show _light">
 						<a href="" target="_self"><img src="images/logo.png" alt="logo" /></a>
 					</div>
-					<div class="header__logo _dark">
+					<div className="header__logo _dark">
 						<a href="" target="_self"><img src="images/logo_dark.png" alt="logo" /></a>
 					</div>
-					<nav class="header__nav">
-						<button class="header__btn-main-new _hover01" id="btnMainNew"><a href="#popNewCard">Создать новую задачу</a></button>
-						<a href="#user-set-target" class="header__user _hover02">Ivan Ivanov</a>
-						<PopUser />
+					<nav className="header__nav">
+						<button className="header__btn-main-new _hover01" id="btnMainNew"><a href="#popNewCard">Создать новую задачу</a></button>
+						<p className='header__user _hover02' onClick={() => {modal ? setModal(false) : setModal(true)}}>Ivan Ivanov</p>
+						{modal && <PopUser />}
 					</nav>					
 				</div>
 			</div>			
