@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
 export const colors = {
     orange: ['#FFE4C2', '#FF6D00'],
@@ -7,11 +7,20 @@ export const colors = {
     gray: ['#94A6BE', '#FFFFFF']
 }
 
+export const cardAnimation = keyframes`
+    0% {
+        height: 0;
+        opacity: 0;
+    }
+    100% {
+        height: auto;
+        opacity: 1;
+    }
+`
+
 export const Item = styled.div`
     padding: 5px;
-    animation-name: card-animation;
-    animation-duration: 500ms;
-    animation-timing-function: linear;
+    animation: ${cardAnimation} 500ms linear;
 `;
 
 export const SCard = styled.div`
@@ -24,6 +33,18 @@ export const SCard = styled.div`
     align-items: flex-start;
     justify-content: stretch;
     padding: 15px 13px 19px;
+
+    @media screen and (max-width: 1200px) {
+        width: 220px;
+        height: 130px;
+        background-color: #FFFFFF;
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: stretch;
+        padding: 15px 13px 19px;
+    }
 `;
 
 export const Group = styled.div`
@@ -44,7 +65,8 @@ export const Theme = styled.h3`
         return (
             $type === 'Web Design' ? colors.orange[0]
             : $type === 'Research' ? colors.green[0]  
-            : $type === 'Copywriting' && colors.purple[0]
+            : $type === 'Copywriting' ? colors.purple[0]
+            : colors.gray[0]
         )
     }};
 
@@ -56,7 +78,8 @@ export const Theme = styled.h3`
             return (
                 $type === 'Web Design' ? colors.orange[1]
                 : $type === 'Research' ? colors.green[1]  
-                : $type === 'Copywriting' && colors.purple[1]
+                : $type === 'Copywriting' ? colors.purple[1]
+                : colors.gray[1]
             )
         }};
     }

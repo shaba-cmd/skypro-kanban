@@ -5,6 +5,8 @@ import Header from './components/Header/Header'
 import Main from './components/Main/Main'
 import PopExit from './components/PopExit/PopExit'
 import { useEffect, useState } from 'react'
+import { GlobalStyle } from './GlobalStyle.styled'
+import { Wrapper } from './App.styled'
 
 function App() {
   const [loading, setLoading] = useState(true) 
@@ -17,7 +19,9 @@ function App() {
 
   return (
     <>
-      <div className="wrapper">        
+      <GlobalStyle />
+
+      <Wrapper>        
         <Header />
         <PopExit />
         <PopNewCard />
@@ -25,7 +29,7 @@ function App() {
         <Main 
           loading={loading}
         />
-      </div>
+      </Wrapper>
     </>
   )
 }

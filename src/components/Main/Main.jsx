@@ -1,7 +1,7 @@
 import { columnTitleList } from "../../data"
 import Column from "../Column/Column"
 import { SMain, Block, Content } from "./Main.styled"
-import { Container } from "../../App.styled.js";
+import { Container } from "../../GlobalStyle.styled";
 
 function Main ({ loading }) {
     return (

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import PopUser from "../PopUser/PopUser";
 import { SHeader, Block, Logo, Nav, Button, User } from "./Header.styled.js";
-import { Container } from "../../App.styled.js";
+import { Container } from "../../GlobalStyle.styled";
 
 function Header () {
 	const [modal, setModal] = useState(false)
@@ -11,10 +11,10 @@ function Header () {
 			<Container>
 				<Block>
 					<Logo className="_show _light">
-						<a href="#" target="_self"><img src="images/logo.png" alt="logo" /></a>
+						<a href="#" target="_self"><img src="../../../public/images/logo.png" alt="logo" /></a>
 					</Logo>
 					<Logo className="_dark">
-						<a href="#" target="_self"><img src="images/logo_dark.png" alt="logo" /></a>
+						<a href="#" target="_self"><img src="../../../public/images/logo_dark.png" alt="logo" /></a>
 					</Logo>
 					<Nav>
 						<Button><a href="#">Создать новую задачу</a></Button>
