@@ -1,14 +1,15 @@
 import { cardList } from "../../data.js";
 import Card from "../Card/Card"
+import { SColumn, Title, Cards } from "./Column.styled.js";
 
 function Column ({ status }) {
     return (
-        <div className="main__column column">
-            <div className="column__title">
+        <SColumn>
+            <Title>
                 <p>{status}</p>
-            </div>
+            </Title>
 
-            <div className="cards">
+            <Cards>
                 {cardList.map((el) => {
                     return (
                         <Card 
@@ -20,8 +21,8 @@ function Column ({ status }) {
                         />
                     );
                 })}
-            </div>
-        </div>
+            </Cards>
+        </SColumn>
     )
 }
 

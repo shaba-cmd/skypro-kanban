@@ -1,27 +1,29 @@
 import { useState } from "react";
 import PopUser from "../PopUser/PopUser";
+import { SHeader, Block, Logo, Nav, Button, User } from "./Header.styled.js";
+import { Container } from "../../GlobalStyle.styled";
 
 function Header () {
 	const [modal, setModal] = useState(false)
 
     return (
-        <header className="header">
-			<div className="container">
-				<div className="header__block">
-					<div className="header__logo _show _light">
-						<a href="" target="_self"><img src="images/logo.png" alt="logo" /></a>
-					</div>
-					<div className="header__logo _dark">
-						<a href="" target="_self"><img src="images/logo_dark.png" alt="logo" /></a>
-					</div>
-					<nav className="header__nav">
-						<button className="header__btn-main-new _hover01" id="btnMainNew"><a href="#popNewCard">Создать новую задачу</a></button>
-						<p className='header__user _hover02' onClick={() => {modal ? setModal(false) : setModal(true)}}>Ivan Ivanov</p>
+        <SHeader>
+			<Container>
+				<Block>
+					<Logo className="_show _light">
+						<a href="#" target="_self"><img src="../../../public/images/logo.png" alt="logo" /></a>
+					</Logo>
+					<Logo className="_dark">
+						<a href="#" target="_self"><img src="../../../public/images/logo_dark.png" alt="logo" /></a>
+					</Logo>
+					<Nav>
+						<Button><a href="#">Создать новую задачу</a></Button>
+						<User onClick={() => {modal ? setModal(false) : setModal(true)}}>Ivan Ivanov</User>
 						{modal && <PopUser />}
-					</nav>					
-				</div>
-			</div>			
-		</header>
+					</Nav>					
+				</Block>
+			</Container>			
+		</SHeader>
     )
 }
 

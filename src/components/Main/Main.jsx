@@ -1,19 +1,21 @@
 import { columnTitleList } from "../../data"
 import Column from "../Column/Column"
+import { SMain, Block, Content } from "./Main.styled"
+import { Container } from "../../GlobalStyle.styled";
 
 function Main ({ loading }) {
     return (
-        <main className="main">
-            <div className="container">   
-                <div className="main__block">
-                    <div className="main__content">
+        <SMain>
+            <Container>   
+                <Block>
+                    <Content>
                         {loading 
                             ? 'Данные загружаются...' 
                             : columnTitleList.map((el) => <Column status={el.status}/>) }
-                    </div> 
-                </div>
-            </div>
-        </main>
+                    </Content> 
+                </Block>
+            </Container>
+        </SMain>
     )
 }
 
