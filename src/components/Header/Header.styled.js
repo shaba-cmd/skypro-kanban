@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 export const SHeader = styled.header`
@@ -19,7 +18,7 @@ export const Block = styled.div`
     padding: 0 10px;
 `;
 
-export const Logo = styled(Link)`
+export const Logo = styled.div`
     & img {
         width: 85px;
     }
@@ -33,16 +32,17 @@ export const Nav = styled.nav`
     justify-content: center;
 `;
 
-export const Button = styled(Link)`
+export const Button = styled.button`
     width: 178px;
-    padding: 6.5px 0;
+    height: 30px;
     border-radius: 4px;
     background-color: #565EEF;
     color: #FFFFFF;
+    border: none;
     font-size: 14px;
-    font-weight: 400;
+    line-height: 1;
+    font-weight: 500;
     margin-right: 20px;
-    text-align: center;
 
     &:hover{background-color: #33399b;}
 
@@ -86,7 +86,6 @@ export const User = styled.p`
         margin: -6px 0 0 5px;
         padding: 0;
     }
-
 
     &:hover {color: #33399b;}
 `;

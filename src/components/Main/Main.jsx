@@ -3,7 +3,7 @@ import Column from "../Column/Column"
 import { SMain, Block, Content } from "./Main.styled"
 import { Container } from "../../GlobalStyle.styled";
 
-function Main ({ loading, card }) {
+function Main ({ loading }) {
     return (
         <SMain>
             <Container>   
@@ -11,7 +11,7 @@ function Main ({ loading, card }) {
                     <Content>
                         {loading 
                             ? 'Данные загружаются...' 
-                            : columnTitleList.map((el) => <Column status={el.status} card={card}/>) }
+                            : columnTitleList.map((el) => <Column status={el.status}/>) }
                     </Content> 
                 </Block>
             </Container>

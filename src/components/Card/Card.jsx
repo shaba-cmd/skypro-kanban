@@ -1,24 +1,26 @@
 import { Item, SCard, Group, Theme, Button, Title, Content, Date } from "./Card.styled"
 
-function Card ({ theme, title, date, status, type = theme, card }) {
+function Card ({ key, theme, title, date, status, type = theme }) {
     return (
         <>
             <Item>
-                <SCard data-status={status}>
+                <SCard key={key} data-status={status}>
                     <Group>
                         <Theme $type={type}>
                             <p>{theme}</p>
                         </Theme>
 
-                        <Button to={'/card/' + card?.id}>
-                            <div></div>
-                            <div></div>
-                            <div></div>
-                        </Button>
+                        <a href="#popBrowse" target="_self">
+                            <Button>
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                            </Button>
+                        </a>
                     </Group>
 
                     <Content>
-                        <a>
+                        <a href="" target="_blank">
                             <Title>{title}</Title>
                         </a>
 

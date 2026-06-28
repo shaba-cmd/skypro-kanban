@@ -1,19 +1,34 @@
-import AppRoutes from './components/AppRoutes'
-import { GlobalStyle } from './GlobalStyle.styled'
+import './App.css'
+import PopNewCard from './components/PopNewCard/PopNewCard'
+import PopBrowse from './components/PopBrowse/PopBrowse'
 import Header from './components/Header/Header'
+import Main from './components/Main/Main'
+import PopExit from './components/PopExit/PopExit'
+import { useEffect, useState } from 'react'
+import { GlobalStyle } from './GlobalStyle.styled'
 import { Wrapper } from './App.styled'
-import { useState } from 'react'
 
 function App() {
-  const [isAuth, setIsAuth] = useState(true) 
+  const [loading, setLoading] = useState(true) 
+
+  useEffect(() => {
+      setTimeout(() => {
+          setLoading(false)
+      }, 2000)
+  }, [])
 
   return (
     <>
       <GlobalStyle />
-      
+
       <Wrapper>        
-        <Header isAuth={isAuth}/>
-        <AppRoutes isAuth={isAuth} setIsAuth={setIsAuth}/>
+        <Header />
+        <PopExit />
+        <PopNewCard />
+        <PopBrowse />
+        <Main 
+          loading={loading}
+        />
       </Wrapper>
     </>
   )

@@ -1,7 +1,7 @@
-import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 export const SPopExit = styled.div`
+    display: none;
     width: 100%;
     height: 100%;
     min-width: 320px;
@@ -62,7 +62,7 @@ export const FormGroup = styled.div`
     }
 `;
 
-export const ExitYes = styled(Link)`
+export const ExitYes = styled.button`
     width: 153px;
     height: 30px;
     background-color: #565EEF;
@@ -97,7 +97,7 @@ export const ExitYes = styled(Link)`
     }
 `;
 
-export const ExitNo = styled(Link)`
+export const ExitNo = styled.button`
     width: 153px;
     height: 30px;
     background-color: transparent;

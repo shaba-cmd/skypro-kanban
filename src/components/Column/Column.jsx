@@ -2,7 +2,7 @@ import { cardList } from "../../data.js";
 import Card from "../Card/Card"
 import { SColumn, Title, Cards } from "./Column.styled.js";
 
-function Column ({ status, card }) {
+function Column ({ status }) {
     return (
         <SColumn>
             <Title>
@@ -18,7 +18,6 @@ function Column ({ status, card }) {
                             title={el.title}
                             date={el.date}
                             status={el.status}
-                            card={card}
                         />
                     );
                 })}

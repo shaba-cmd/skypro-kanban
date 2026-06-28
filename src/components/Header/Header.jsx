@@ -3,26 +3,24 @@ import PopUser from "../PopUser/PopUser";
 import { SHeader, Block, Logo, Nav, Button, User } from "./Header.styled.js";
 import { Container } from "../../GlobalStyle.styled";
 
-function Header ({ isAuth }) {
+function Header () {
 	const [modal, setModal] = useState(false)
 
     return (
         <SHeader>
 			<Container>
 				<Block>
-					<Logo className="_show _light" to='/'>
-						<img src="/images/logo.png" alt="logo" />
+					<Logo className="_show _light">
+						<a href="#" target="_self"><img src="../../../public/images/logo.png" alt="logo" /></a>
 					</Logo>
-					<Logo className="_dark" to='/'>
-						<img src="/images/logo_dark.png" alt="logo" />
+					<Logo className="_dark">
+						<a href="#" target="_self"><img src="../../../public/images/logo_dark.png" alt="logo" /></a>
 					</Logo>
-					{isAuth && 
-						<Nav>
-							<Button to='/card/add'>Создать новую задачу</Button>
-							<User onClick={() => {modal ? setModal(false) : setModal(true)}}>Ivan Ivanov</User>
-							{modal && <PopUser />}
-						</Nav>		
-					}			
+					<Nav>
+						<Button><a href="#">Создать новую задачу</a></Button>
+						<User onClick={() => {modal ? setModal(false) : setModal(true)}}>Ivan Ivanov</User>
+						{modal && <PopUser />}
+					</Nav>					
 				</Block>
 			</Container>			
 		</SHeader>
