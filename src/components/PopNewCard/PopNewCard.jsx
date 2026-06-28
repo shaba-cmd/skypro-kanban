@@ -1,45 +1,51 @@
-import Calendar from "../../popups/Calendar/Calendar";
+import { useState } from "react";
+import Calendar from "../Calendar/Calendar";
+import { NewCard, Container, Block, Content, Ttl, Close, Wrap, Categories, CatP, Themes, Theme, Form, FormBlock, Input, Textarea, Create } from "./PopNewCard.styled";
+import { cardList } from "../../data";
 
 function PopNewCard () {
+    const [isActive, setIsActive] = useState(1)
+
     return (
-        <div className="pop-new-card" id="popNewCard">
-            <div className="pop-new-card__container">
-                <div className="pop-new-card__block">
-                    <div className="pop-new-card__content">
-                        <h3 className="pop-new-card__ttl">Создание задачи</h3>
-                        <a href="#" className="pop-new-card__close">&#10006;</a>
-                        <div className="pop-new-card__wrap">
-                            <form className="pop-new-card__form form-new" id="formNewCard" action="#">
-                                <div className="form-new__block">
+        <NewCard>
+            <Container>
+                <Block>
+                    <Content>
+                        <Ttl>Создание задачи</Ttl>
+                        <Close to='/'>&#10006;</Close>
+                        <Wrap>
+                            <Form>
+                                <FormBlock>
                                     <label htmlFor="formTitle" className="subttl">Название задачи</label>
-                                    <input className="form-new__input" type="text" name="name" id="formTitle" placeholder="Введите название задачи..." autoFocus />
-                                </div>
-                                <div className="form-new__block">
+                                    <Input type="text" name="name" id="formTitle" placeholder="Введите название задачи..." autoFocus />
+                                </FormBlock>
+                                <FormBlock>
                                     <label htmlFor="textArea" className="subttl">Описание задачи</label>
-                                    <textarea className="form-new__area" name="text" id="textArea"  placeholder="Введите описание задачи..."></textarea>
-                                </div>
-                            </form>
+                                    <Textarea name="text" id="textArea"  placeholder="Введите описание задачи..."></Textarea>
+                                </FormBlock>
+                            </Form>
                             <Calendar />
-                        </div>
-                        <div className="pop-new-card__categories categories">
-                            <p className="categories__p subttl">Категория</p>
-                            <div className="categories__themes">
-                                <div className="categories__theme _orange _active-category">
-                                    <p className="_orange">Web Design</p>
-                                </div>
-                                <div className="categories__theme _green">
-                                    <p className="_green">Research</p>
-                                </div>
-                                <div className="categories__theme _purple">
-                                    <p className="_purple">Copywriting</p>
-                                </div>
-                            </div>
-                        </div>
-                        <button className="form-new__create _hover01" id="btnCreate">Создать задачу</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+                        </Wrap>
+                        <Categories>
+                            <CatP className="subttl">Категория</CatP>
+                            <Themes>
+                                {cardList.map((el) => {
+                                    return (
+                                        <Theme onClick={() => setIsActive(el.id)} className={`
+                                            ${el.theme === 'Web Design' ?' _orange' : el.theme === 'Research' ? '_green' : '_purple'}
+                                            ${isActive === el.id && '_active-category'}
+                                        `}>
+                                            <p>{el.theme}</p>
+                                        </Theme>
+                                    )
+                                })}
+                            </Themes>
+                        </Categories>
+                        <Create className="_hover01" to='/'>Создать задачу</Create>
+                    </Content>
+                </Block>
+            </Container>
+        </NewCard>
     )
 }
 

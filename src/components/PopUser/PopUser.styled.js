@@ -1,7 +1,7 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 export const PopUserSet = styled.div`
-    display: block;
     position: absolute;
     top: 61px;
     right: 0;
@@ -75,9 +75,8 @@ export const Theme = styled.div`
     }
 `;
 
-export const Button = styled.button`
-    width: 72px;
-    height: 30px;
+export const Button = styled(Link)`
+    padding: 5px 11px;
     background: transparent;
     color: #565EEF;
     border-radius: 4px;
