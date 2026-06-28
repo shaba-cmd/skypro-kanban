@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import styled, { keyframes } from "styled-components";
 
 export const colors = {
@@ -85,7 +86,7 @@ export const Theme = styled.h3`
     }
 `;
 
-export const Button = styled.div`
+export const Button = styled(Link)`
     width: 24px;
     height: 24px;
     display: flex;

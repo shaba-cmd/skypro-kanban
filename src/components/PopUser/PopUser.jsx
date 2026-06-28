@@ -9,7 +9,7 @@ function PopUser () {
                 <p>Темная тема</p>
                 <input type="checkbox" name="checkbox" />
             </Theme>
-            <Button type="button"><p>Выйти</p></Button>
+            <Button to='/exit'>Выйти</Button>
         </PopUserSet>
     )
 }

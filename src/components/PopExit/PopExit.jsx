@@ -10,8 +10,8 @@ const PopExit = () => {
               </Titile>
               <form>
                 <FormGroup>
-                    <ExitYes><p>Да, выйти</p> </ExitYes>
-                    <ExitNo><p>Нет, остаться</p> </ExitNo>
+                    <ExitYes to='/sign-in'>Да, выйти</ExitYes>
+                    <ExitNo to='/'>Нет, остаться</ExitNo>
                 </FormGroup>
               </form>
           </Block>
