@@ -31,7 +31,7 @@ function PopNewCard () {
                             <Themes>
                                 {cardList.map((el) => {
                                     return (
-                                        <Theme onClick={() => setIsActive(el.id)} className={`
+                                        <Theme key={el.id} onClick={() => setIsActive(el.id)} className={`
                                             ${el.theme === 'Web Design' ?' _orange' : el.theme === 'Research' ? '_green' : '_purple'}
                                             ${isActive === el.id && '_active-category'}
                                         `}>
