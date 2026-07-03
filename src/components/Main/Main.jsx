@@ -11,7 +11,7 @@ function Main ({ loading, card }) {
                     <Content>
                         {loading 
                             ? 'Данные загружаются...' 
-                            : columnTitleList.map((el) => <Column status={el.status} card={card}/>) }
+                            : columnTitleList.map((el) => <Column key={el.id} status={el.status} card={card}/>) }
                     </Content> 
                 </Block>
             </Container>
