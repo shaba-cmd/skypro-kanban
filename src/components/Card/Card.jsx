@@ -10,7 +10,7 @@ function Card ({ theme, title, date, status, type = theme, card }) {
                             <p>{theme}</p>
                         </Theme>
 
-                        <Button to={'/card/' + card?.id}>
+                        <Button to={'/card/' + card.id}>
                             <div></div>
                             <div></div>
                             <div></div>

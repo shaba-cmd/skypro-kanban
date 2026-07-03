@@ -1,6 +1,7 @@
 import { SPopExit, Container, Block, Titile, FormGroup, ExitYes, ExitNo } from "./PopExit.styled"
 
-const PopExit = () => {
+const PopExit = ({ handleLogout }) => {
+
   return (
     <SPopExit>
         <Container>
@@ -10,7 +11,7 @@ const PopExit = () => {
               </Titile>
               <form>
                 <FormGroup>
-                    <ExitYes to='/sign-in'>Да, выйти</ExitYes>
+                    <ExitYes onClick={handleLogout}>Да, выйти</ExitYes>
                     <ExitNo to='/'>Нет, остаться</ExitNo>
                 </FormGroup>
               </form>

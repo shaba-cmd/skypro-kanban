@@ -1,4 +1,3 @@
-import { cardList } from "../../data.js";
 import Card from "../Card/Card"
 import { SColumn, Title, Cards } from "./Column.styled.js";
 
@@ -10,7 +9,7 @@ function Column ({ status, card }) {
             </Title>
 
             <Cards>
-                {cardList.map((el) => {
+                {card.map((el) => {
                     return (
                         <Card 
                             key={el.id}
@@ -18,7 +17,7 @@ function Column ({ status, card }) {
                             title={el.title}
                             date={el.date}
                             status={el.status}
-                            card={card}
+                            card={el}
                         />
                     );
                 })}

@@ -1,7 +1,7 @@
 import AuthForm from "../AuthForm/AuthForm"
 
-const SignIn = ({ setIsAuth }) => {
-  return <AuthForm setIsAuth={setIsAuth} isSignUp={false}/>
+const SignIn = ({ handleAuth }) => {
+  return <AuthForm handleAuth={handleAuth} isSignUp={false}/>
 }
 
 export default SignIn

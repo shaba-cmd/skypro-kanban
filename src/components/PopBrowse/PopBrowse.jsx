@@ -1,11 +1,22 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import Calendar from "../Calendar/Calendar";
-import { Browse, Container, Block, Content, TopBlock, Status, Themes, Theme, Ttl, Wrap, CatP, CatTheme, Form, FormBlock, Textarea } from "./PopBrowse.styled";
-import { Link } from "react-router-dom";
+import { Browse, Container, Block, Content, TopBlock, Status, Themes, Theme, Ttl, Wrap, CatP, CatTheme, Form, FormBlock, Textarea, Group, Button } from "./PopBrowse.styled";
+import { useParams, Link } from "react-router-dom";
 
 function PopBrowse ({ card }) {
     const [edit, setEdit] = useState(false)
 
+    const { id } = useParams();
+    const cards = useMemo(
+        () => card.find((c) => c.id === id) || {
+            theme: "",
+            title: "",
+            date: "",
+            status: "",
+        },
+        [id]
+    )
+    
     return (
         <Browse>
             <Container>
@@ -13,15 +24,15 @@ function PopBrowse ({ card }) {
                     <Content>
                         <TopBlock>
                             <Ttl>Название задачи</Ttl>
-                            <CatTheme className="_orange _active-category">
-                                <p className="_orange">{card?.title}</p>
+                            <CatTheme className={`${cards.theme === 'Web Design' ?' _orange' : cards.theme === 'Research' ? '_green' : '_purple'} _active-category`}>
+                                <p>{cards.title}</p>
                             </CatTheme>
                         </TopBlock>
                         <Status>
                             <p className="subttl">Статус</p>
                             <Themes>
                                 <Theme className="_gray">
-                                    <p className="_gray">{card?.status}</p>
+                                    <p className="_gray">{cards.status}</p>
                                 </Theme>
                             </Themes>
                         </Status>
@@ -36,25 +47,25 @@ function PopBrowse ({ card }) {
                         </Wrap>
                         <div>
                             <CatP className="subttl">Категория</CatP>
-                            <CatTheme className="_orange _active-category _mb">
-                                <p className="_orange">{card?.theme}</p>
+                            <CatTheme className={`${cards.theme === 'Web Design' ?' _orange' : cards.theme === 'Research' ? '_green' : '_purple'} _active-category _mb`}>
+                                <p>{cards.theme}</p>
                             </CatTheme>
                         </div>
                         <div className="pop-browse__btn-browse">
-                            <div className="btn-group">
-                                <button className="btn-browse__edit _btn-bor _hover03" onClick={() => setEdit(true)}>Редактировать задачу</button>
-                                <button className="btn-browse__delete _btn-bor _hover03"><Link to='/'>Удалить задачу</Link></button>
-                            </div>
-                            <button className="btn-browse__close _btn-bg _hover01"><Link to='/'>Закрыть</Link></button>
+                            <Group>
+                                <Button className="_btn-bor _hover03" onClick={() => setEdit(true)}>Редактировать задачу</Button>
+                                <Link  to='/'><Button className="_btn-bor _hover03">Удалить задачу</Button></Link>
+                            </Group>
+                            <Link  to='/'><Button className="_btn-bg _hover01">Закрыть</Button></Link>
                         </div>
                         {edit && 
                             <div className="pop-browse__btn-edit">
-                                <div className="btn-group">
-                                    <button className="btn-edit__edit _btn-bg _hover01">Сохранить</button>
-                                    <button className="btn-edit__edit _btn-bor _hover03">Отменить</button>
-                                    <button className="btn-edit__delete _btn-bor _hover03" id="btnDelete"><Link to='/'>Удалить задачу</Link></button>
-                                </div>
-                                <button className="btn-edit__close _btn-bg _hover01" onClick={() => setEdit(false)}>Закрыть</button>
+                                <Group>
+                                    <Button className="_btn-bg _hover01">Сохранить</Button>
+                                    <Button className="_btn-bor _hover03">Отменить</Button>
+                                    <Link  to='/'><Button className="_btn-bor _hover03">Удалить задачу</Button></Link>
+                                </Group>
+                                <Button className="_btn-bg _hover01" onClick={() => setEdit(false)}>Закрыть</Button>
                             </div>
                         }
                     </Content>

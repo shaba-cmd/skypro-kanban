@@ -67,28 +67,9 @@ export const Content= styled.div `
         justify-content: space-between;
     }
 
-    & .pop-browse__btn-browse button, .pop-browse__btn-edit button {
-        height: 30px;
-        margin-bottom: 10px;
-        padding: 0 14px;
-    }
-
-    & .pop-browse__btn-browse .btn-group button, .pop-browse__btn-edit .btn-group button {
-        margin-right: 8px;
-    }
-
     @media screen and (max-width: 495px) {
-        & .pop-browse__btn-browse button, .pop-browse__btn-edit button {
+        & .pop-browse__btn-browse a {
             width: 100%;
-            height: 40px;
-        }
-
-        & .pop-browse__btn-browse .btn-group, .pop-browse__btn-edit .btn-group {
-            width: 100%;
-        }
-
-        & .pop-browse__btn-browse .btn-group button, .pop-browse__btn-edit .btn-group button {
-            margin-right: 0px;
         }
     }
 `
@@ -222,5 +203,24 @@ export const Textarea= styled.textarea `
     @media screen and (max-width: 495px) {
         max-width: 100%;
         height: 34px;
+    }
+`
+
+export const Button = styled.button `
+    height: 30px;
+    margin-bottom: 10px;
+    padding: 0 14px;
+    margin-right: 8px;
+
+    @media screen and (max-width: 495px) {
+        width: 100%;
+        height: 40px;
+        margin-right: 0px;
+    }
+`
+
+export const Group = styled.div `
+    @media screen and (max-width: 495px) {
+        width: 100%;
     }
 `

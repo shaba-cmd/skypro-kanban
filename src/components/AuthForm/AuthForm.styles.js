@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 export const Wrapper = styled.div `
@@ -73,7 +72,7 @@ export const Input = styled.input `
     width: 100%;
     min-width: 100%;
     border-radius: 8px;
-    border: 0.7px solid rgba(148, 166, 190, 0.4);
+    border: ${({$error}) => $error ? '0.7px solid rgba(255, 0, 0, 0.4)' : '0.7px solid rgba(148, 166, 190, 0.4)'};
     outline: none;
     padding: 10px 8px;
 
@@ -88,7 +87,13 @@ export const Input = styled.input `
     }
 `
 
-export const Button = styled(Link) `
+export const Error = styled.p `
+    color: red;
+    font-size: 0.8rem;
+    text-align: center;
+`
+
+export const Button = styled.button `
     width: 100%;
     height: 30px;
     background-color: #565EEF;
@@ -102,7 +107,7 @@ export const Button = styled(Link) `
     justify-content: center;
     font-size: 14px;
     line-height: 21px;
-    font-weight: 500;
+    font-weight: 600;
     letter-spacing: -0.14px;
     color: #FFFFFF;
 

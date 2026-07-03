@@ -62,7 +62,7 @@ export const FormGroup = styled.div`
     }
 `;
 
-export const ExitYes = styled(Link)`
+export const ExitYes = styled.button`
     width: 153px;
     height: 30px;
     background-color: #565EEF;
