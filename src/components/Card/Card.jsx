@@ -5,6 +5,7 @@ import { useState } from "react";
 
 function Card ({ topic, title, date, status, id, setTask, token, type = topic }) {
     const [anim, setAnim] = useState(false)
+    const [error, setError] = useState(null)
     const navigate = useNavigate()
     const formatDate = (isoString) => {
         const [year, month, day] = isoString.slice(0, 10).split('-');
@@ -13,14 +14,18 @@ function Card ({ topic, title, date, status, id, setTask, token, type = topic })
 
     const handleClick = () => {
         setAnim(true)
+        setError(null)
 
         getTasksId({ token, id: id._id })
             .then((data) => {
                 setTask(data);
                 navigate('/card/' + id._id)
             })
+            .catch ((err) => setError(err.message)) 
             .finally(() => setAnim(false))
     }
+
+    error && alert(error)
 
     return (
         <>
