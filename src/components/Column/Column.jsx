@@ -1,7 +1,9 @@
 import Card from "../Card/Card"
 import { SColumn, Title, Cards } from "./Column.styled.js";
 
-function Column ({ status, card }) {
+function Column ({ status, tasks, setTask, token }) {
+    const filteredTasks = tasks.filter((t) => t.status === status);
+
     return (
         <SColumn>
             <Title>
@@ -9,15 +11,17 @@ function Column ({ status, card }) {
             </Title>
 
             <Cards>
-                {card.map((el) => {
+                {filteredTasks.map((el) => {
                     return (
                         <Card 
-                            key={el.id}
-                            theme={el.theme}
+                            key={el._id}
+                            topic={el.topic}
                             title={el.title}
                             date={el.date}
                             status={el.status}
-                            card={el}
+                            id={el}
+                            setTask={setTask}
+                            token={token}
                         />
                     );
                 })}

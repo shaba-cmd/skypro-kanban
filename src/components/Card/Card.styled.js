@@ -1,5 +1,4 @@
-import { Link } from "react-router-dom";
-import styled, { keyframes } from "styled-components";
+import styled, { css, keyframes } from "styled-components";
 
 export const colors = {
     orange: ['#FFE4C2', '#FF6D00'],
@@ -86,21 +85,36 @@ export const Theme = styled.h3`
     }
 `;
 
-export const Button = styled(Link)`
+const Bounce = keyframes `
+    0%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-8px);
+    }
+`;
+
+export const Button = styled.div`
     width: 24px;
     height: 24px;
     display: flex;
     align-items: center;
     justify-content: space-around;
     padding: 2px;
-
-    & div {
-        width: 4px;
-        height: 4px;
-        border-radius: 50%;
-        background-color: #94A6BE;
-    }
+    cursor: pointer;
 `;
+
+export const Dot = styled.div `
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background-color: #94A6BE;
+
+    ${({ $anim }) => $anim && css`
+        animation: ${Bounce} 1s infinite ease-in-out;
+        animation-delay: ${({ $delay }) => $delay}s;
+    `}
+`
 
 export const Title = styled.div`
     font-size: 14px;

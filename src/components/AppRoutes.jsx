@@ -8,9 +8,10 @@ import NotFoundPage from '../pages/NotFoundPage/NotFoundPage'
 import { useEffect, useState } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import PrivateRoute from './PrivateRoute'
-import { cardList } from '../data'
 
 function AppRoutes({ isAuth, handleLogout, handleAuth }) {
+    const [task, setTask] = useState([]);
+    const [tasks, setTasks] = useState([]);
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
@@ -22,10 +23,32 @@ function AppRoutes({ isAuth, handleLogout, handleAuth }) {
     return (
         <Routes>
             <Route element={<PrivateRoute isAuth={isAuth}/>}>
-                <Route path='/' element={<PageMain loading={loading} card={cardList} />}>
-                    <Route path='/card/add' element={<PageNewCard />} />
-                    <Route path='/card/:id' element={<PageBrowse card={cardList} />} />
-                    <Route path='/exit' element={<PageExit handleLogout={handleLogout} />} />
+                <Route path='/' element={
+                    <PageMain 
+                        loading={loading} 
+                        setLoading={setLoading} 
+                        token={isAuth.token} 
+                        setTask={setTask}
+                        tasks={tasks}
+                        setTasks={setTasks}
+                    />}>
+                        <Route path='/card/add' element={
+                            <PageNewCard 
+                                loading={loading} 
+                                setLoading={setLoading} 
+                                token={isAuth.token}
+                                setTasks={setTasks}
+                            />} 
+                        />
+                        <Route path='/card/:id' element={
+                            <PageBrowse 
+                                task={task} 
+                                token={isAuth.token} 
+                                loading={loading} 
+                                setLoading={setLoading} 
+                                setTasks={setTasks}
+                            />} />
+                        <Route path='/exit' element={<PageExit handleLogout={handleLogout} />} />
                 </Route>
             </Route>
             <Route path='/sign-in' element={<SignInPage handleAuth={handleAuth} />} />

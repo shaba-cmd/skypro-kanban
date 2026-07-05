@@ -5,7 +5,7 @@ export const Browse= styled.div `
     height: 100%;
     min-width: 375px;
     min-height: 100vh;
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     z-index: 7;
@@ -211,6 +211,32 @@ export const Button = styled.button `
     margin-bottom: 10px;
     padding: 0 14px;
     margin-right: 8px;
+    border-radius: 4px;
+
+    &:hover {
+        background-color: #33399b;
+        color: #FFFFFF;
+    }
+
+    &.active {
+        ${({$type}) => !$type 
+            ? ` background-color: #dddddd;
+                color: gray;
+                border: 0.7px solid gray;
+                cursor: default;`
+
+            : ` border-radius: 4px;
+                border: 0.7px solid var(--palette-navy-60, #565EEF);
+                outline: none;
+                background: transparent;
+                color: #565EEF;
+                
+                &:hover {
+                    background-color: #33399b;
+                    color: #FFFFFF;
+                }`
+        }
+    }
 
     @media screen and (max-width: 495px) {
         width: 100%;
@@ -223,4 +249,9 @@ export const Group = styled.div `
     @media screen and (max-width: 495px) {
         width: 100%;
     }
+`
+
+export const Error = styled.p `
+    color: red;
+    font-size: 14px;
 `

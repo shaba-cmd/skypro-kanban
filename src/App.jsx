@@ -5,11 +5,11 @@ import { Wrapper } from './App.styled'
 import { useEffect, useState } from 'react'
 
 function App() {
-  const [isAuth, setIsAuth] = useState(() => { //token получаем из isAuth.token
+  const [isAuth, setIsAuth] = useState(() => {
     const auth = localStorage.getItem('userData');
     return auth ? JSON.parse(auth) : null;
   });
-
+  
   const handleAuth = (formData) => {
     setIsAuth(formData);
   };
