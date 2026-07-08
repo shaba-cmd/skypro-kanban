@@ -5,12 +5,13 @@ import PageExit from '../pages/PageExit/PageExit'
 import SignInPage from '../pages/SignInPage/SignInPage'
 import SignUpPage from '../pages/SignUpPage/SignUpPage'
 import NotFoundPage from '../pages/NotFoundPage/NotFoundPage'
-import { useEffect, useMemo, useState } from 'react'
-import { Route, Routes, useParams } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { Route, Routes } from 'react-router-dom'
 import PrivateRoute from './PrivateRoute'
-import { cardList } from '../data'
 
-function AppRoutes({ isAuth, setIsAuth }) {
+function AppRoutes({ isAuth, handleLogout, handleAuth }) {
+    const [task, setTask] = useState([]);
+    const [tasks, setTasks] = useState([]);
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
@@ -19,28 +20,39 @@ function AppRoutes({ isAuth, setIsAuth }) {
         }, 2000)
     }, [])
 
-    const { id } = useParams();
-    const card = useMemo(
-        () => cardList.find((c) => c.id === id) || {
-            theme: "",
-            title: "",
-            date: "",
-            status: "",
-        },
-        [id]
-    )
-
     return (
         <Routes>
             <Route element={<PrivateRoute isAuth={isAuth}/>}>
-                <Route path='/' element={<PageMain loading={loading} card={card} />}>
-                    <Route path='/card/add' element={<PageNewCard />} />
-                    <Route path='/card/:id' element={<PageBrowse card={card} />} />
-                    <Route path='/exit' element={<PageExit />} />
+                <Route path='/' element={
+                    <PageMain 
+                        loading={loading} 
+                        setLoading={setLoading} 
+                        token={isAuth.token} 
+                        setTask={setTask}
+                        tasks={tasks}
+                        setTasks={setTasks}
+                    />}>
+                        <Route path='/card/add' element={
+                            <PageNewCard 
+                                loading={loading} 
+                                setLoading={setLoading} 
+                                token={isAuth.token}
+                                setTasks={setTasks}
+                            />} 
+                        />
+                        <Route path='/card/:id' element={
+                            <PageBrowse 
+                                task={task} 
+                                token={isAuth.token} 
+                                loading={loading} 
+                                setLoading={setLoading} 
+                                setTasks={setTasks}
+                            />} />
+                        <Route path='/exit' element={<PageExit handleLogout={handleLogout} />} />
                 </Route>
             </Route>
-            <Route path='/sign-in' element={<SignInPage setIsAuth={setIsAuth} />} />
-            <Route path='/sign-up' element={<SignUpPage setIsAuth={setIsAuth} />} />
+            <Route path='/sign-in' element={<SignInPage handleAuth={handleAuth} />} />
+            <Route path='/sign-up' element={<SignUpPage handleAuth={handleAuth} />} />
             <Route path='*' element={<NotFoundPage />} />
         </Routes>
     )

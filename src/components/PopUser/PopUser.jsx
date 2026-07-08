@@ -1,10 +1,10 @@
 import { PopUserSet, Name, Mail, Theme, Button } from "./PopUser.styled"
 
-function PopUser () {
+function PopUser ({ user }) {
     return (
         <PopUserSet>
-            <Name>Ivan Ivanov</Name>
-            <Mail>ivan.ivanov@gmail.com</Mail>
+            <Name>{user.name}</Name>
+            <Mail>{user.login}</Mail>
             <Theme>
                 <p>Темная тема</p>
                 <input type="checkbox" name="checkbox" />

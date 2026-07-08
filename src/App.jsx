@@ -2,18 +2,37 @@ import AppRoutes from './components/AppRoutes'
 import { GlobalStyle } from './GlobalStyle.styled'
 import Header from './components/Header/Header'
 import { Wrapper } from './App.styled'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 function App() {
-  const [isAuth, setIsAuth] = useState(true) 
+  const [isAuth, setIsAuth] = useState(() => {
+    const auth = localStorage.getItem('userData');
+    return auth ? JSON.parse(auth) : null;
+  });
+  
+  const handleAuth = (formData) => {
+    setIsAuth(formData);
+  };
+
+  const handleLogout = () => {
+    setIsAuth(null);
+  };
+
+  useEffect(() => {
+    if (isAuth) {
+      localStorage.setItem('userData', JSON.stringify(isAuth));
+    } else {
+      localStorage.removeItem('userData');
+    }
+  }, [isAuth]);
 
   return (
     <>
       <GlobalStyle />
       
       <Wrapper>        
-        <Header isAuth={isAuth}/>
-        <AppRoutes isAuth={isAuth} setIsAuth={setIsAuth}/>
+        {isAuth && <Header user={isAuth}/>}
+        <AppRoutes isAuth={isAuth} handleLogout={handleLogout} handleAuth={handleAuth}/>
       </Wrapper>
     </>
   )

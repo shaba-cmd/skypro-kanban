@@ -1,25 +1,51 @@
-import { Item, SCard, Group, Theme, Button, Title, Content, Date } from "./Card.styled"
+import { useNavigate } from "react-router-dom";
+import { getTasksId } from "../../services/api";
+import { Item, SCard, Group, Theme, Button, Dot, Title, Content, Date } from "./Card.styled"
+import { useState } from "react";
 
-function Card ({ theme, title, date, status, type = theme, card }) {
+function Card ({ topic, title, date, status, id, setTask, token, type = topic }) {
+    const [anim, setAnim] = useState(false)
+    const [error, setError] = useState(null)
+    const navigate = useNavigate()
+    const formatDate = (isoString) => {
+        const [year, month, day] = isoString.slice(0, 10).split('-');
+        return `${day}.${month}.${year.slice(2)}`;
+    }
+
+    const handleClick = () => {
+        setAnim(true)
+        setError(null)
+
+        getTasksId({ token, id: id._id })
+            .then((data) => {
+                setTask(data);
+                navigate('/card/' + id._id)
+            })
+            .catch ((err) => setError(err.message)) 
+            .finally(() => setAnim(false))
+    }
+
+    error && alert(error)
+
     return (
         <>
             <Item>
                 <SCard data-status={status}>
                     <Group>
                         <Theme $type={type}>
-                            <p>{theme}</p>
+                            <p>{topic}</p>
                         </Theme>
 
-                        <Button to={'/card/' + card?.id}>
-                            <div></div>
-                            <div></div>
-                            <div></div>
+                        <Button $anim={anim} onClick={handleClick}>
+                            <Dot $anim={anim} $delay={0} />
+                            <Dot $anim={anim} $delay={0.2} />
+                            <Dot $anim={anim} $delay={0.4} />
                         </Button>
                     </Group>
 
                     <Content>
                         <a>
-                            <Title>{title}</Title>
+                            <Title onClick={handleClick}>{title}</Title>
                         </a>
 
                         <Date>
@@ -34,7 +60,8 @@ function Card ({ theme, title, date, status, type = theme, card }) {
                                 </clipPath>
                                 </defs>
                             </svg>
-                            <p>{date}</p>
+                            <p>{formatDate(date)}
+                            </p>
                         </Date>
                     </Content>
                 </SCard>

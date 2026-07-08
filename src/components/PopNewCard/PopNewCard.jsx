@@ -1,10 +1,69 @@
 import { useState } from "react";
 import Calendar from "../Calendar/Calendar";
-import { NewCard, Container, Block, Content, Ttl, Close, Wrap, Categories, CatP, Themes, Theme, Form, FormBlock, Input, Textarea, Create } from "./PopNewCard.styled";
-import { cardList } from "../../data";
+import { NewCard, Container, Block, Content, Ttl, Close, Wrap, Categories, CatP, Themes, Theme, Form, FormBlock, Input, Textarea, Create, Error } from "./PopNewCard.styled";
+import { postTasks } from "../../services/api";
 
-function PopNewCard () {
-    const [isActive, setIsActive] = useState(1)
+function PopNewCard ({ loading, setLoading, token, setTasks }) {
+    const [isActive, setIsActive] = useState(2)
+    const [error, setError] = useState(null);
+    const [count, setCount] = useState(0)
+    const themeTask = [
+        {id: 1, theme: 'Web Design'},
+        {id: 2, theme: 'Research'},
+        {id: 3, theme: 'Copywriting'},
+    ]
+    const [task, setTask] = useState({
+        title: " ",
+        topic: "Research",
+        status: "Без статуса",
+        description: " ",
+        date: new Date().toISOString(),
+    });
+
+    const handleChange = (field, value) => {
+        setTask(prev => ({
+            ...prev,
+            [field]: value
+        }));
+    };
+
+    const handleThemeClick = (themeTask) => {
+        handleChange("topic", themeTask.theme);
+        setIsActive(themeTask.id)
+    };
+
+    const handleSubmit = async () => {
+        setLoading(true);
+        setError(null);
+
+        let finalTask = { ...task };
+
+        if (!task.title.trim()) {
+            const newCount = count + 1;
+            setCount(newCount);
+            finalTask = {
+                ...finalTask,
+                title: `Новая задача ${newCount}!`,
+            };
+        }
+
+        try {
+            await postTasks({ token, task: finalTask })
+            .then((data) => {
+                setTasks(data)
+                setTask(prev => ({
+                    ...prev,
+                    title: ' ',
+                    description: ' ',
+                }));
+                setIsActive(2)
+            })
+        } catch (err) {
+            setError(err.message);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     return (
         <NewCard>
@@ -17,11 +76,25 @@ function PopNewCard () {
                             <Form>
                                 <FormBlock>
                                     <label htmlFor="formTitle" className="subttl">Название задачи</label>
-                                    <Input type="text" name="name" id="formTitle" placeholder="Введите название задачи..." autoFocus />
+                                    <Input 
+                                        type="text" 
+                                        name="name" 
+                                        id="formTitle" 
+                                        placeholder="Введите название задачи..." 
+                                        value={task.title === ' ' ? task.title.trim() : task.title}
+                                        onChange={(e) => handleChange("title", e.target.value)}
+                                        autoFocus 
+                                    />
                                 </FormBlock>
                                 <FormBlock>
                                     <label htmlFor="textArea" className="subttl">Описание задачи</label>
-                                    <Textarea name="text" id="textArea"  placeholder="Введите описание задачи..."></Textarea>
+                                    <Textarea 
+                                        name="text" 
+                                        id="textArea"  
+                                        placeholder="Введите описание задачи..."
+                                        value={task.description === ' ' ? task.description.trim() : task.description}
+                                        onChange={(e) => handleChange("description", e.target.value)}
+                                    ></Textarea>
                                 </FormBlock>
                             </Form>
                             <Calendar />
@@ -29,10 +102,12 @@ function PopNewCard () {
                         <Categories>
                             <CatP className="subttl">Категория</CatP>
                             <Themes>
-                                {cardList.map((el) => {
+                                {themeTask.map((el) => {
                                     return (
-                                        <Theme key={el.id} onClick={() => setIsActive(el.id)} className={`
-                                            ${el.theme === 'Web Design' ?' _orange' : el.theme === 'Research' ? '_green' : '_purple'}
+                                        <Theme key={el.id} onClick={() => handleThemeClick(el)} className={`
+                                            ${el.theme === 'Web Design' ?' _orange' 
+                                                : el.theme === 'Research' ? '_green' 
+                                                : '_purple'}
                                             ${isActive === el.id && '_active-category'}
                                         `}>
                                             <p>{el.theme}</p>
@@ -41,7 +116,12 @@ function PopNewCard () {
                                 })}
                             </Themes>
                         </Categories>
-                        <Create className="_hover01" to='/'>Создать задачу</Create>
+
+                        <Create className="_hover01" onClick={handleSubmit} disabled={loading}>
+                            {loading ? "Создание..." : "Создать задачу"}
+                        </Create>
+
+                        {error && <Error>{error}</Error>}
                     </Content>
                 </Block>
             </Container>
