@@ -8,16 +8,20 @@ export const PopUserSet = styled.div`
     width: 213px;
     height: 205px;
     border-radius: 10px;
-    border: 0.7px solid rgba(148, 166, 190, 0.4);
-    background: #FFF;
-    box-shadow: 0px 10px 39px 0px rgba(26, 56, 101, 0.21);
+    background: ${({theme}) => theme === 'light' ? '#FFF' : '#202229'};
+    border: 0.7px solid ${({theme}) => theme === 'light' ? 'rgba(148, 166, 190, 0.4)' : '#4E5566'};
+    box-shadow: 0px 10px 39px 0px ${({theme}) => theme === 'light' ? 'rgba(26, 56, 101, 0.21)' : 'rgba(148, 166, 190, 0.40)'};
     padding: 34px;
     text-align: center;
     z-index: 2;
+
+    @media screen and (max-width: 660px) {
+        z-index: 20;
+    }
 `;
 
 export const Name = styled.div`
-    color: #000;
+    color: ${({theme}) => theme === 'light' ? '#000' : '#FFF'};
     font-size: 14px;
     font-weight: 500;
     line-height: 21px;
@@ -40,7 +44,7 @@ export const Theme = styled.div`
     margin-bottom: 30px;
 
     & p {
-        color: #000;
+        color: ${({theme}) => theme === 'light' ? '#000' : '#FFF'};
         font-size: 14px;
         line-height: 21px;
         letter-spacing: -0.14px;
@@ -66,7 +70,7 @@ export const Theme = styled.div`
         width: 11px;
         height: 11px;
         border-radius: 50%;
-        background-color: #94A6BE;
+        background-color: ${({theme}) => theme === 'light' ? '#94A6BE' : '#565EEF'};
         transition: 0.5s;
     }
 
@@ -78,16 +82,12 @@ export const Theme = styled.div`
 export const Button = styled(Link)`
     padding: 5px 11px;
     background: transparent;
-    color: #565EEF;
+    color: ${({theme}) => theme === 'light' ? '#565EEF' : '#FFFFFF'};
     border-radius: 4px;
-    border: 1px solid #565EEF;
+    border: 1px solid ${({theme}) => theme === 'light' ? '#565EEF' : '#FFFFFF'};
 
     &:hover {
         background-color: #33399b;
         color: #FFFFFF;
-    }
-
-    & a {
-        color: #565EEF;
     }
 `;

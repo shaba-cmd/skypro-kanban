@@ -1,12 +1,7 @@
 import PopNewCard from "../../components/PopNewCard/PopNewCard"
 
-const PageNewCard = ({ loading, setLoading, token, setTasks }) => {
-  return <PopNewCard 
-    loading={loading} 
-    setLoading={setLoading} 
-    token={token} 
-    setTasks={setTasks}
-  />;
+const PageNewCard = () => {
+  return <PopNewCard />;
 }
 
 export default PageNewCard

@@ -2,8 +2,12 @@ import { useState } from "react";
 import { Wrapper, Container, Modal, Block, Ttl, Login, Input, Error, Button, Group } from "./AuthForm.styles"
 import { Link, useNavigate } from "react-router-dom"
 import { signIn, signUp } from "../../services/auth";
+import { useProvider } from "../../hooks/useProvider";
+import { AuthContext, ThemeContext } from "../../context/ContextAPI";
 
-const AuthForm = ({ handleAuth, isSignUp }) => {
+const AuthForm = ({ isSignUp }) => {
+	const { login } = useProvider(AuthContext)
+	const { theme } = useProvider(ThemeContext)
 	const navigate = useNavigate();
 
 	const [formData, setFormDate] = useState({
@@ -82,7 +86,7 @@ const AuthForm = ({ handleAuth, isSignUp }) => {
 				: await signIn({ login: formData.login, password: formData.password })
 			
 			if (data) {
-				handleAuth({
+				login({
 					name: data.name,
 					login: data.login,
 					token: data.token
@@ -98,11 +102,12 @@ const AuthForm = ({ handleAuth, isSignUp }) => {
 		<Wrapper>
 			<Container>
 				<Modal>
-					<Block>
+					<Block theme={theme}>
 						<Ttl>{isSignUp ? 'Регистрация' : 'Вход'}</Ttl>
 						<Login onSubmit={handleClick}>
 							{isSignUp && 
 								<Input 
+								 	theme={theme}
 									$error={errors.name}
 									value={formData.name} 
 									type="text" 
@@ -112,6 +117,7 @@ const AuthForm = ({ handleAuth, isSignUp }) => {
 								/>
 							}
 							<Input 
+							 	theme={theme}
 								$error={errors.login}
 								value={formData.login} 
 								type="text" 
@@ -120,6 +126,7 @@ const AuthForm = ({ handleAuth, isSignUp }) => {
 								onChange={handleChange}
 							/>
 							<Input 
+							 	theme={theme}
 								$error={errors.password}
 								value={formData.password} 
 								type="password" 

@@ -1,7 +1,10 @@
+import { TaskContext } from "../../context/ContextAPI.js";
+import { useProvider } from "../../hooks/useProvider.js";
 import Card from "../Card/Card"
 import { SColumn, Title, Cards } from "./Column.styled.js";
 
-function Column ({ status, tasks, setTask, token }) {
+function Column ({ status }) {
+    const { tasks } = useProvider(TaskContext)
     const filteredTasks = tasks.filter((t) => t.status === status);
 
     return (
@@ -20,8 +23,6 @@ function Column ({ status, tasks, setTask, token }) {
                             date={el.date}
                             status={el.status}
                             id={el}
-                            setTask={setTask}
-                            token={token}
                         />
                     );
                 })}

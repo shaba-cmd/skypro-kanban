@@ -1,7 +1,7 @@
 import SignIn from "../../components/SignIn/SignIn"
 
-const SignInPage = ({ handleAuth }) => {
-  return <SignIn handleAuth={handleAuth}/>
+const SignInPage = () => {
+  return <SignIn />
 }
 
 export default SignInPage

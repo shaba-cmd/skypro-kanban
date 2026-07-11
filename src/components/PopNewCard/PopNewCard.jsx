@@ -2,16 +2,17 @@ import { useState } from "react";
 import Calendar from "../Calendar/Calendar";
 import { NewCard, Container, Block, Content, Ttl, Close, Wrap, Categories, CatP, Themes, Theme, Form, FormBlock, Input, Textarea, Create, Error } from "./PopNewCard.styled";
 import { postTasks } from "../../services/api";
+import { AuthContext, LoadingContext, TaskContext, ThemeContext } from "../../context/ContextAPI";
+import { useProvider } from "../../hooks/useProvider";
 
-function PopNewCard ({ loading, setLoading, token, setTasks }) {
+function PopNewCard () {
+    const { user } = useProvider(AuthContext)
+    const { setTasks } = useProvider(TaskContext)
+    const { loading, setLoading } = useProvider(LoadingContext)
+    const { theme } = useProvider(ThemeContext)
     const [isActive, setIsActive] = useState(2)
     const [error, setError] = useState(null);
     const [count, setCount] = useState(0)
-    const themeTask = [
-        {id: 1, theme: 'Web Design'},
-        {id: 2, theme: 'Research'},
-        {id: 3, theme: 'Copywriting'},
-    ]
     const [task, setTask] = useState({
         title: " ",
         topic: "Research",
@@ -19,6 +20,12 @@ function PopNewCard ({ loading, setLoading, token, setTasks }) {
         description: " ",
         date: new Date().toISOString(),
     });
+
+    const themeTask = [
+        {id: 1, theme: 'Web Design'},
+        {id: 2, theme: 'Research'},
+        {id: 3, theme: 'Copywriting'},
+    ]
 
     const handleChange = (field, value) => {
         setTask(prev => ({
@@ -48,7 +55,7 @@ function PopNewCard ({ loading, setLoading, token, setTasks }) {
         }
 
         try {
-            await postTasks({ token, task: finalTask })
+            await postTasks({ token: user.token, task: finalTask })
             .then((data) => {
                 setTasks(data)
                 setTask(prev => ({
@@ -67,16 +74,17 @@ function PopNewCard ({ loading, setLoading, token, setTasks }) {
 
     return (
         <NewCard>
-            <Container>
-                <Block>
+            <Container theme={theme}>
+                <Block theme={theme}>
                     <Content>
-                        <Ttl>Создание задачи</Ttl>
+                        <Ttl theme={theme}>Создание задачи</Ttl>
                         <Close to='/'>&#10006;</Close>
                         <Wrap>
                             <Form>
                                 <FormBlock>
                                     <label htmlFor="formTitle" className="subttl">Название задачи</label>
                                     <Input 
+                                        theme={theme}
                                         type="text" 
                                         name="name" 
                                         id="formTitle" 
@@ -89,6 +97,7 @@ function PopNewCard ({ loading, setLoading, token, setTasks }) {
                                 <FormBlock>
                                     <label htmlFor="textArea" className="subttl">Описание задачи</label>
                                     <Textarea 
+                                        theme={theme}
                                         name="text" 
                                         id="textArea"  
                                         placeholder="Введите описание задачи..."

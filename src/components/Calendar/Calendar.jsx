@@ -1,6 +1,10 @@
+import { ThemeContext } from "../../context/ContextAPI"
+import { useProvider } from "../../hooks/useProvider"
 import { SCalendar, Ttl, Block, Nav, Month, Actions, Action, Content, DaysNames, DayName, Cells, Cell, Period, Text } from "./Calendar.styled"
 
 function Calendar () {
+    const { theme } = useProvider(ThemeContext)
+
     return (
         <SCalendar>
             <Ttl className="subttl">Даты</Ttl>
@@ -71,7 +75,7 @@ function Calendar () {
         
                 <input type="hidden" id="datepick_value" value="08.09.2023" />
                 <Period>
-                    <Text className="date-end">Срок исполнения: <span className="date-control">09.09.23</span></Text>
+                    <Text className="date-end" theme={theme}>Срок исполнения: <span className="date-control">09.09.23</span></Text>
                 </Period>
             </Block>
         </SCalendar>
