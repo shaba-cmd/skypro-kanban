@@ -5,7 +5,6 @@ export const Wrapper = styled.div `
     height: 100%;
     overflow-x: hidden;
     overflow-y: scroll;
-    background-color: #EAEEF6;
 `
 
 export const Container = styled.div `
@@ -24,26 +23,22 @@ export const Modal = styled.div `
     flex-direction: column;
     align-items: center;
     justify-content: center;
-
-    @media screen and (max-width: 375px) {
-        background-color: #FFFFFF;
-    }
 `
 export const Block = styled.div `
     display: block;
     margin: 0 auto;
-    background-color: #FFFFFF;
+    background-color: ${({theme}) => theme === 'light' ? '#FFFFFF' : '#20202C'};
     max-width: 368px;
     width: 100%;
     padding: 50px 60px;
     border-radius: 10px;
-    border: 0.7px solid #D4DBE5;
+    border: 0.7px solid ${({theme}) => theme === 'light' ? '#D4DBE5' : '#4E5566'};
     box-shadow: 0px 4px 67px -12px rgba(0, 0, 0, 0.13);
 
     @media screen and (max-width: 375px) {
         max-width: 368px;
         width: 100%;
-        padding: 0 16px;
+        padding: 16px 16px;
         border-radius: none;
         border: none;
         box-shadow: none;
@@ -72,7 +67,7 @@ export const Input = styled.input `
     width: 100%;
     min-width: 100%;
     border-radius: 8px;
-    border: ${({$error}) => $error ? '0.7px solid rgba(255, 0, 0, 0.4)' : '0.7px solid rgba(148, 166, 190, 0.4)'};
+    border: ${({$error}) => $error ? '0.7px solid rgba(148, 166, 190, 0.4)' : '0.7px solid rgba(148, 166, 190, 0.4)'};
     outline: none;
     padding: 10px 8px;
 

@@ -4,7 +4,7 @@ import styled from "styled-components";
 export const SHeader = styled.header`
     width: 100%;
     margin: 0 auto;
-    background-color: #FFFFFF;
+    background-color: ${({theme}) => theme === 'light' ? '#FFFFFF' : '#20202C'};
 `;
 
 export const Block = styled.div`
@@ -58,6 +58,7 @@ export const Button = styled(Link)`
         top: auto;
         width: calc(100vw - 32px);
         height: 40px;
+        line-height: 1.8;
         border-radius: 4px;
         margin-right: 0;
     }
@@ -71,7 +72,7 @@ export const User = styled.p`
     justify-content: center;
     font-size: 14px;
     line-height: 20px;
-    color: #565EEF;
+    color: ${({theme}) => theme === 'light' ? '#565EEF' : '#FFFFFF'};
     cursor: pointer;
 
     &::after {
@@ -80,13 +81,12 @@ export const User = styled.p`
         width: 6px;
         height: 6px;
         border-radius: 1px;
-        border-left: 1.9px solid #565EEF;
-        border-bottom: 1.9px solid #565EEF;
+        border-left: 1.9px solid ${({theme}) => theme === 'light' ? '#565EEF' : '#FFFFFF'};
+        border-bottom: 1.9px solid ${({theme}) => theme === 'light' ? '#565EEF' : '#FFFFFF'};
         transform: rotate(-45deg);
         margin: -6px 0 0 5px;
         padding: 0;
     }
-
 
     &:hover {color: #33399b;}
 `;

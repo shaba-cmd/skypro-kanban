@@ -44,6 +44,7 @@ export async function postTasks({ token, task }) {
 
 export async function putTasks({ token, id, task }) {
     try {
+        
         const data = await axios.put(API_URL + `/${id}`, task, {
             headers: {
                 Authorization: 'Bearer ' + token,

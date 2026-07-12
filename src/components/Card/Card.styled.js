@@ -26,7 +26,7 @@ export const Item = styled.div`
 export const SCard = styled.div`
     width: 220px;
     height: 130px;
-    background-color: #FFFFFF;
+    background-color: ${({theme}) => theme === 'light' ? '#FFFFFF' : '#20202C'};
     border-radius: 10px;
     display: flex;
     flex-direction: column;
@@ -37,7 +37,6 @@ export const SCard = styled.div`
     @media screen and (max-width: 1200px) {
         width: 220px;
         height: 130px;
-        background-color: #FFFFFF;
         border-radius: 10px;
         display: flex;
         flex-direction: column;
@@ -120,7 +119,7 @@ export const Title = styled.div`
     font-size: 14px;
     font-weight: 500;
     line-height: 18px;
-    color: #000000;
+    color: ${({theme}) => theme === 'light' ? '#000' : '#FFF'};
     margin-bottom: 10px;
 `;
 

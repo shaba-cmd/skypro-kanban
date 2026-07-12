@@ -2,8 +2,13 @@ import { useNavigate } from "react-router-dom";
 import { getTasksId } from "../../services/api";
 import { Item, SCard, Group, Theme, Button, Dot, Title, Content, Date } from "./Card.styled"
 import { useState } from "react";
+import { useProvider } from "../../hooks/useProvider";
+import { AuthContext, TaskContext, ThemeContext } from "../../context/ContextAPI";
 
-function Card ({ topic, title, date, status, id, setTask, token, type = topic }) {
+function Card ({ topic, title, date, status, id, type = topic }) {
+    const { user } = useProvider(AuthContext)
+    const { setTask } = useProvider(TaskContext)
+    const { theme } = useProvider(ThemeContext)
     const [anim, setAnim] = useState(false)
     const [error, setError] = useState(null)
     const navigate = useNavigate()
@@ -16,7 +21,7 @@ function Card ({ topic, title, date, status, id, setTask, token, type = topic })
         setAnim(true)
         setError(null)
 
-        getTasksId({ token, id: id._id })
+        getTasksId({ token: user.token, id: id._id })
             .then((data) => {
                 setTask(data);
                 navigate('/card/' + id._id)
@@ -30,7 +35,7 @@ function Card ({ topic, title, date, status, id, setTask, token, type = topic })
     return (
         <>
             <Item>
-                <SCard data-status={status}>
+                <SCard data-status={status} theme={theme}>
                     <Group>
                         <Theme $type={type}>
                             <p>{topic}</p>
@@ -44,9 +49,7 @@ function Card ({ topic, title, date, status, id, setTask, token, type = topic })
                     </Group>
 
                     <Content>
-                        <a>
-                            <Title onClick={handleClick}>{title}</Title>
-                        </a>
+                        <Title onClick={handleClick} theme={theme}>{title}</Title>
 
                         <Date>
                             <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 13 13" fill="none">
@@ -60,8 +63,7 @@ function Card ({ topic, title, date, status, id, setTask, token, type = topic })
                                 </clipPath>
                                 </defs>
                             </svg>
-                            <p>{formatDate(date)}
-                            </p>
+                            <p>{formatDate(date)}</p>
                         </Date>
                     </Content>
                 </SCard>

@@ -1,17 +1,10 @@
 import { Outlet } from "react-router-dom"
 import Main from "../../components/Main/Main"
 
-const PageMain = ({ loading, setLoading, token, setTask, tasks, setTasks }) => {
+const PageMain = () => {
   return (
     <>
-      <Main 
-        loading={loading} 
-        setLoading={setLoading} 
-        token={token} 
-        setTask={setTask}
-        tasks={tasks}
-        setTasks={setTasks}
-      />
+      <Main />
       <Outlet />
     </>
   )

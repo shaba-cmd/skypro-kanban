@@ -1,7 +1,7 @@
 import PopExit from "../../components/PopExit/PopExit"
 
-const PageExit = ({ handleLogout }) => {
-  return <PopExit handleLogout={handleLogout}/>;
+const PageExit = () => {
+  return <PopExit />;
 }
 
 export default PageExit

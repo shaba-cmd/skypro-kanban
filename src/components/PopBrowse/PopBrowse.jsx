@@ -1,10 +1,16 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Calendar from "../Calendar/Calendar";
 import { Browse, Container, Block, Content, TopBlock, Status, Themes, Theme, Ttl, Wrap, CatP, CatTheme, Form, FormBlock, Textarea, Group, Button, Error } from "./PopBrowse.styled";
 import { Link, useNavigate } from "react-router-dom";
 import { deleteTasks, putTasks } from "../../services/api";
+import { AuthContext, LoadingContext, TaskContext, ThemeContext } from "../../context/ContextAPI";
+import { useProvider } from "../../hooks/useProvider";
 
-function PopBrowse ({ task, token, loading, setLoading, setTasks }) {
+function PopBrowse () {
+    const { user } = useProvider(AuthContext)
+    const { task, setTasks } = useProvider(TaskContext)
+    const { loading, setLoading } = useProvider(LoadingContext)
+    const { theme } = useProvider(ThemeContext)
     const navigate = useNavigate()
     const [edit, setEdit] = useState(false) 
     const [error, setError] = useState(null) 
@@ -16,12 +22,18 @@ function PopBrowse ({ task, token, loading, setLoading, setTasks }) {
         status: task.status,
         description: task.description,
         date: task.date,
-    }) 
+    })
     
+    useEffect(() => {
+        if (!taskUpdate.topic) {
+            navigate('/');
+        }
+    }, [taskUpdate.topic, navigate]);
+
     const handleDelete = () => {
         setLoading(true)
     
-        deleteTasks({ token, id: task._id })
+        deleteTasks({ token: user.token, id: task._id })
             .then((data) => {
                 setTasks(data);
                 setError(null);
@@ -36,14 +48,14 @@ function PopBrowse ({ task, token, loading, setLoading, setTasks }) {
 
         setTaskUpdate(e => ({
             ...e,
-            [field]: value,
+            [field]: value.trim() === '' ? ' ' : value,
         }))
     }
 
     const handleUpdate = () => {
         setSaved(true)
     
-        putTasks({ token, id: task._id, task: taskUpdate })
+        putTasks({ token: user.token, id: task._id, task: taskUpdate })
             .then((data) => {
                 setTasks(data);
                 setError(null);
@@ -67,11 +79,11 @@ function PopBrowse ({ task, token, loading, setLoading, setTasks }) {
 
     return (
         <Browse>
-            <Container>
-                <Block>
+            <Container theme={theme}>
+                <Block theme={theme}>
                     <Content>
                         <TopBlock>
-                            <Ttl>Название задачи</Ttl>
+                            <Ttl theme={theme}>Название задачи</Ttl>
                             <CatTheme className={
                                 `${taskUpdate.topic === 'Web Design' 
                                 ? ' _orange' : taskUpdate.topic === 'Research' 
@@ -93,6 +105,7 @@ function PopBrowse ({ task, token, loading, setLoading, setTasks }) {
                                 <FormBlock>
                                     <label htmlFor="textArea01" className="subttl">Описание задачи</label>
                                     <Textarea 
+                                        theme={theme}
                                         name="text"
                                         id="textArea01"
                                         readOnly={!edit}
@@ -112,7 +125,7 @@ function PopBrowse ({ task, token, loading, setLoading, setTasks }) {
                                 ? ' _orange' : taskUpdate.topic === 'Research'
                                 ? '_green' : '_purple'} _active-category _mb`
                             }>
-                                <p>{taskUpdate.topic ? taskUpdate.topic : navigate('/')}</p>
+                                <p>{taskUpdate.topic}</p>
                             </CatTheme>
                         </div>
                         <div className="pop-browse__btn-browse">
@@ -138,6 +151,7 @@ function PopBrowse ({ task, token, loading, setLoading, setTasks }) {
                                     >{saved ? 'Сохранение...' : 'Сохранить'}</Button>
 
                                     <Button 
+                                        theme={theme}
                                         className="_btn-bor active" 
                                         $type={back} 
                                         onClick={() => back && handleBack()}

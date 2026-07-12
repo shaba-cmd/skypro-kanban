@@ -1,38 +1,28 @@
 import AppRoutes from './components/AppRoutes'
-import { GlobalStyle } from './GlobalStyle.styled'
+import { GlobalStyle, Wrapper } from './GlobalStyle.styled'
 import Header from './components/Header/Header'
-import { Wrapper } from './App.styled'
-import { useEffect, useState } from 'react'
+import { useProvider } from './hooks/useProvider'
+import { AuthContext, ThemeContext } from './context/ContextAPI'
+import { useEffect } from 'react'
 
 function App() {
-  const [isAuth, setIsAuth] = useState(() => {
-    const auth = localStorage.getItem('userData');
-    return auth ? JSON.parse(auth) : null;
-  });
-  
-  const handleAuth = (formData) => {
-    setIsAuth(formData);
-  };
-
-  const handleLogout = () => {
-    setIsAuth(null);
-  };
+  const { user } = useProvider(AuthContext)
+  const { theme, setTheme } = useProvider(ThemeContext)
 
   useEffect(() => {
-    if (isAuth) {
-      localStorage.setItem('userData', JSON.stringify(isAuth));
-    } else {
-      localStorage.removeItem('userData');
-    }
-  }, [isAuth]);
+    const savedTheme = localStorage.getItem('theme')
+      if (savedTheme) {
+        setTheme(savedTheme)
+      }
+  }, [])
 
   return (
     <>
-      <GlobalStyle />
+      <GlobalStyle theme={theme}/>
       
-      <Wrapper>        
-        {isAuth && <Header user={isAuth}/>}
-        <AppRoutes isAuth={isAuth} handleLogout={handleLogout} handleAuth={handleAuth}/>
+      <Wrapper>    
+        {user && <Header />}
+        <AppRoutes />
       </Wrapper>
     </>
   )

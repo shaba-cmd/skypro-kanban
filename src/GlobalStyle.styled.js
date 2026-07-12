@@ -17,8 +17,8 @@ export const GlobalStyle = createGlobalStyle`
     width: 100%;
     height: 100%;
     font-family: "Roboto", Arial, Helvetica, sans-serif;
-    color: #000000;
-    background-color: #EAEEF6;
+    color: ${({theme}) => theme === 'light' ? '#000' : '#fff'};
+    background-color: ${({theme}) => theme === 'light' ? '#EAEEF6' : '#151419'};
   }
 
   a,
@@ -57,8 +57,9 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   ._hover03:hover {
-    background-color: #33399b;
+    background-color: ${({theme}) => theme === 'light' ? '#EAEEF6' : '#33399b'};
     color: #FFFFFF;
+    ${({theme}) => theme === 'dark' && 'border-color: #565EEF'};
   }
 
   ._hover03:hover a {
@@ -66,18 +67,18 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   ._orange {
-    background-color: #FFE4C2;
-    color: #FF6D00;
+    background-color: ${({theme}) => theme === 'light' ? '#FFE4C2' : '#FF6D00'};
+    color: ${({theme}) => theme === 'light' ? '#FF6D00' : '#FFE4C2'};
   }
 
   ._green {
-      background-color: #B4FDD1;
-      color: #06B16E;
+      background-color: ${({theme}) => theme === 'light' ? '#B4FDD1' : '#06B16E'};
+      color: ${({theme}) => theme === 'light' ? '#06B16E' : '#B4FDD1'};
   }
 
   ._purple {
-      background-color: #E9D4FF;
-      color: #9A48F1;
+      background-color: ${({theme}) => theme === 'light' ? '#E9D4FF' : '#9A48F1'};
+      color: ${({theme}) => theme === 'light' ? '#9A48F1' : '#E9D4FF'};
   }
 
   ._gray {
@@ -86,7 +87,7 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   .subttl {
-    color: #000;
+    color: ${({theme}) => theme === 'light' ? '#000' : '#fff'};
     font-size: 14px;
     font-weight: 600;
     line-height: 1;
@@ -107,7 +108,7 @@ export const GlobalStyle = createGlobalStyle`
 
   ._active-day {
     background-color: #94A6BE;
-    color: #FFFFFF;
+    color: ${({theme}) => theme === 'light' ? '#FFFFFF' : '#151419'} !important;
   }
 
   ._current {
@@ -116,14 +117,10 @@ export const GlobalStyle = createGlobalStyle`
 
   ._btn-bor {
     border-radius: 4px;
-    border: 0.7px solid var(--palette-navy-60, #565EEF);
+    border: 0.7px solid ${({theme}) => theme === 'light' ? 'var(--palette-navy-60, #565EEF)' : 'var(--palette-navy-60, #FFFFFF)'};
     outline: none;
     background: transparent;
-    color: #565EEF;
-  }
-  
-  ._btn-bor a {
-    color: #565EEF;
+    color: ${({theme}) => theme === 'light' ? '#565EEF' : '#FFFFFF'};
   }
 
   ._btn-bg {
@@ -138,13 +135,16 @@ export const GlobalStyle = createGlobalStyle`
     color: #FFFFFF;
   }
 
-  ._hide {
-    display: none;
-  }
-
   ._dark {
-    display: none;
+    display: none ${({theme}) => theme === 'light' ? 'none' : 'block'};
   }
+`;
+
+export const Wrapper = styled.div`
+    max-width: 100%;
+    width: 100vw;
+    min-height: 100vh;
+    overflow: hidden;
 `;
 
 export const Container = styled.div`

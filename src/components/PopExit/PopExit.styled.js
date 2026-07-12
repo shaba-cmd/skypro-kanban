@@ -21,18 +21,18 @@ export const Container = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background: rgba(0, 0, 0, 0.4);
+    background: ${({theme}) => theme === 'light' ? 'rgba(0, 0, 0, 0.4)' : 'rgba(0, 0, 0, 0.8)'};
 `;
 
 export const Block = styled.div`
     display: block;
     margin: 0 auto;
-    background-color: #FFFFFF;
+    background-color: ${({theme}) => theme === 'light' ? '#FFFFFF' : '#20202C'};
     max-width: 370px;
     width: 100%;
     padding: 50px 60px;
     border-radius: 10px;
-    border: 0.7px solid #D4DBE5;
+    border: 0.7px solid ${({theme}) => theme === 'light' ? '#D4DBE5' : '#4E5566'};
     box-shadow: 0px 4px 67px -12px rgba(0, 0, 0, 0.13);
 
    @media only screen and (max-width: 375px) {
@@ -102,7 +102,7 @@ export const ExitNo = styled(Link)`
     height: 30px;
     background-color: transparent;
     border-radius: 4px;
-    border: 0.7px solid var(--palette-navy-60, #565EEF);
+    border: 0.7px solid ${({theme}) => theme === 'light' ? 'var(--palette-navy-60, #565EEF)' : 'var(--palette-navy-60, #FFFFFF)'};
     outline: none;
     display: flex;
     align-items: center;
@@ -111,7 +111,7 @@ export const ExitNo = styled(Link)`
     line-height: 21px;
     font-weight: 500;
     letter-spacing: -0.14px;
-    color: #565EEF;
+    color: ${({theme}) => theme === 'light' ? '#565EEF' : 'var(--palette-navy-60, #FFFFFF)'};
 
     &:hover{
         background-color: #33399b;
