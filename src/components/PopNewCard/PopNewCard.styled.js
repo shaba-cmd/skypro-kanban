@@ -25,7 +25,7 @@ export const Container = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: center;
     background: ${({theme}) => theme === 'light' ? 'rgba(0, 0, 0, 0.4)' : 'rgba(0, 0, 0, 0.8)'};
 
     @media screen and (max-width: 660px) {
@@ -47,7 +47,6 @@ export const Block = styled.div`
     ${({theme}) => theme === 'dark' && 'box-shadow: 0px 4px 67px -12px rgba(0, 0, 0, 0.13);'}
 
     @media screen and (max-width: 660px) {
-        border-radius: 0;
         max-width: 100%;
     }
 
@@ -81,6 +80,7 @@ export const Close = styled(Link)`
     right: 30px;
     color: #94A6BE;
     cursor: pointer;
+    transition: all .1s ease-in-out;
 
     &:hover {
         color: ${({theme}) => theme === 'light' ? '#000000' : '#FFFFFF'};
@@ -257,6 +257,7 @@ export const Create = styled(Link)`
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: all .1s ease-in-out;
 
     @media screen and (max-width: 495px) {
         width: 100%;

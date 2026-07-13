@@ -45,7 +45,6 @@ export const Block = styled.div`
     position: relative;
 
     @media screen and (max-width: 660px) {
-        border-radius: 0;
         max-width: 100%;
     }
 
@@ -247,6 +246,7 @@ export const Button = styled.button`
     padding: 0 14px;
     margin-right: 8px;
     border-radius: 4px;
+    transition: all .1s ease-in-out;
 
     &:hover {
         background-color: #33399b;
@@ -263,10 +263,11 @@ export const Button = styled.button`
             `
             : css`
                 border-radius: 4px;
-                border: 0.7px solid var(--palette-navy-60, #565EEF);
+                border: 0.7px solid ${({theme}) => theme === 'light' ? 'var(--palette-navy-60, #565EEF)' : 'var(--palette-navy-60, #FFFFFF)'};
                 outline: none;
                 background: transparent;
-                color: #565EEF;
+                color: ${({theme}) => theme === 'light' ? '#565EEF' : '#FFFFFF'};
+                transition: all .1s ease-in-out;
                 
                 &:hover {
                     background-color: #33399b;
@@ -294,9 +295,4 @@ export const Group = styled.div`
         flex-direction: column;
         gap: 0;
     }
-`
-
-export const Error = styled.p`
-    color: red;
-    font-size: 14px;
 `

@@ -1,11 +1,10 @@
-import { TaskContext } from "../../context/ContextAPI.js";
-import { useProvider } from "../../hooks/useProvider.js";
 import Card from "../Card/Card"
 import { SColumn, Title, Cards } from "./Column.styled.js";
+import { useDroppable } from '@dnd-kit/core'
+import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
 
-function Column ({ status }) {
-    const { tasks } = useProvider(TaskContext)
-    const filteredTasks = tasks.filter((t) => t.status === status);
+function Column ({ status, tasks }) {
+    const { setNodeRef, isOver } = useDroppable({ id: status })
 
     return (
         <SColumn>
@@ -13,20 +12,18 @@ function Column ({ status }) {
                 <p>{status}</p>
             </Title>
 
-            <Cards>
-                {filteredTasks.map((el) => {
-                    return (
-                        <Card 
-                            key={el._id}
-                            topic={el.topic}
-                            title={el.title}
-                            date={el.date}
-                            status={el.status}
-                            id={el}
-                        />
-                    );
-                })}
-            </Cards>
+            <SortableContext
+                items={tasks.map(t => t._id)}
+                strategy={verticalListSortingStrategy}
+            >
+                <Cards ref={setNodeRef} $isOver={isOver}>
+                    {tasks.map((el) => {
+                        return (
+                            <Card key={el._id} task={el} />
+                        );
+                    })}
+                </Cards>
+            </SortableContext>
         </SColumn>
     )
 }

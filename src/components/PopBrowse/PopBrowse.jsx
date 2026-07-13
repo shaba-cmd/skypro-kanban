@@ -1,19 +1,19 @@
 import { useEffect, useState } from "react";
 import Calendar from "../Calendar/Calendar";
-import { Browse, Container, Block, Content, TopBlock, Status, Themes, Theme, Ttl, Wrap, CatP, CatTheme, Form, FormBlock, Textarea, Group, Button, Error } from "./PopBrowse.styled";
+import { Browse, Container, Block, Content, TopBlock, Status, Themes, Theme, Ttl, Wrap, CatP, CatTheme, Form, FormBlock, Textarea, Group, Button } from "./PopBrowse.styled";
 import { Link, useNavigate } from "react-router-dom";
 import { deleteTasks, putTasks } from "../../services/api";
 import { AuthContext, LoadingContext, TaskContext, ThemeContext } from "../../context/ContextAPI";
 import { useProvider } from "../../hooks/useProvider";
+import { toast } from "react-toastify";
 
 function PopBrowse () {
+    const navigate = useNavigate()
     const { user } = useProvider(AuthContext)
-    const { task, setTasks } = useProvider(TaskContext)
+    const { task, setTask, setTasks } = useProvider(TaskContext)
     const { loading, setLoading } = useProvider(LoadingContext)
     const { theme } = useProvider(ThemeContext)
-    const navigate = useNavigate()
     const [edit, setEdit] = useState(false) 
-    const [error, setError] = useState(null) 
     const [saved, setSaved] = useState(false) 
     const [back, setBack] = useState(false) 
     const [taskUpdate, setTaskUpdate] = useState({
@@ -23,7 +23,7 @@ function PopBrowse () {
         description: task.description,
         date: task.date,
     })
-    
+
     useEffect(() => {
         if (!taskUpdate.topic) {
             navigate('/');
@@ -36,12 +36,21 @@ function PopBrowse () {
         deleteTasks({ token: user.token, id: task._id })
             .then((data) => {
                 setTasks(data);
-                setError(null);
                 navigate('/')
+                toast.success('Задача удалена!')
             })
-            .catch((err) => setError(err.message))
+            .catch((err) => toast.error(err.message))
             .finally(() => setLoading(false));
     }
+
+    const handleDateChange = (isoDate) => {
+        setBack(task.date === isoDate ? false : true)
+
+        setTaskUpdate(prev => ({
+            ...prev,
+            date: isoDate
+        }));
+    };
 
     const handleChange = (field, value) => {
         setBack(task.description === value ? false : true)
@@ -58,10 +67,11 @@ function PopBrowse () {
         putTasks({ token: user.token, id: task._id, task: taskUpdate })
             .then((data) => {
                 setTasks(data);
-                setError(null);
+                setTask({ ...taskUpdate, _id: task._id });
                 setBack(false)
+                toast.success('Задача сохранена!')
             })
-            .catch((err) => setError(err.message))
+            .catch((err) => toast.error(err.message))
             .finally(() => setSaved(false));
     }
 
@@ -116,7 +126,12 @@ function PopBrowse () {
                                     </Textarea>
                                 </FormBlock>
                             </Form>
-                            <Calendar />
+                            <Calendar 
+                                edit={edit}
+                                key={taskUpdate.date}
+                                selectedDate={taskUpdate.date} 
+                                onDateChange={handleDateChange} 
+                            />
                         </Wrap>
                         <div>
                             <CatP className="subttl">Категория</CatP>
@@ -168,7 +183,6 @@ function PopBrowse () {
                                 >Закрыть</Button>
                             </div>
                         }
-                        {error && <Error>{error}</Error>}
                     </Content>
                 </Block>
             </Container>

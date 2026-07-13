@@ -94,7 +94,7 @@ const AuthForm = ({ isSignUp }) => {
 				navigate('/')
 			}
 		} catch(error) {
-			setError(error.message)
+			setError(error.message);
 		}
 	}
 

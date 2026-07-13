@@ -3,6 +3,20 @@ import styled from "styled-components";
 export const SCalendar = styled.div`
     width: 182px;
     margin-bottom: 20px;
+    position: relative;
+    ${({$edit, $newCard}) => (!$edit && !$newCard) && 
+        `&::after {
+            content: '';
+            background-color: inherit;
+            width: 182px;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 50;
+            cursor: default;
+        }`
+    }
 
     @media screen and (max-width: 660px) {
         max-width: 340px;
@@ -12,10 +26,25 @@ export const SCalendar = styled.div`
             display: none;
             margin-bottom: 7px;
         }
+
+        &::after {
+            width: 340px;
+        }
     }
 
     @media screen and (max-width: 495px) {
+        max-width: 300px;
         width: 100%;
+
+        &::after {
+            width: 300px;
+        }
+    }
+
+    @media screen and (max-width: 333px) {
+        &::after {
+            width: 270px;
+        }
     }
 `
 
@@ -39,10 +68,6 @@ export const Nav = styled.div`
     justify-content: space-between;
     margin-top: 14px;
     padding: 0 7px;
-
-    @media screen and (max-width: 660px) {
-        padding: 0;
-    }
 `
 
 export const Month = styled.div`
@@ -50,6 +75,7 @@ export const Month = styled.div`
     font-size: 14px;
     line-height: 25px;
     font-weight: 600;
+    cursor: default;
 
     @media screen and (max-width: 495px) {
         font-size: 16px;
@@ -61,15 +87,21 @@ export const Actions = styled.div`
     align-items: center;
     justify-content: space-between;
     gap: 12px;
+
+    & div:hover {
+        background-color: ${({theme}) => theme === 'light' ? '#eaeef6ae' : '#15141995'};
+    }
 `
 
 export const Action = styled.div`
     width: 18px;
-    height: 25px;
+    height: 18px;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
+    border-radius: 20px;
+    transition: all .1s ease-in-out;
 
     & svg {
         fill: #94A6BE;
@@ -102,10 +134,6 @@ export const DaysNames = styled.div`
     margin: 7px 0;
     padding: 0 7px;
 
-    @media screen and (max-width: 660px) {
-        padding: 0;
-    }
-
     @media screen and (max-width: 495px) {
         margin: 10px 0;
     }
@@ -115,8 +143,7 @@ export const DayName = styled.div`
     color: #94A6BE;
     font-size: 10px;
     font-weight: 500;
-    line-height: normal;
-    letter-spacing: -0.2px;
+    cursor: default;
 
     @media screen and (max-width: 660px) {
         font-size: 14px;
@@ -138,22 +165,34 @@ export const Cells = styled.div`
     flex-wrap: wrap;
 
     @media screen and (max-width: 660px) {
-        width: 344px;
+        width: 346px;
         height: auto;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-around;
+        justify-content: space-between;
     }
 
     @media screen and (max-width: 495px) {
-        width: 100%;
+        width: 320px;
         justify-content: flex-start;
-        gap: 4px;
+        gap: 9px;
     }
 
     @media screen and (max-width: 375px) {
-        gap: 2px;
+        width: 100%;
+        gap: 8px;
         justify-content: space-between;
+    }
+
+    @media screen and (max-width: 337px) {
+        gap: 5px;
+    }
+
+    & div:hover {
+        background-color: ${({theme}) => theme === 'light' ? '#EAEEF6' : '#151419'};
+    }
+
+    & div.active {
+        background-color: #94A6BE;
+        color: ${({theme}) => theme === 'light' ? '#FFFFFF' : '#151419'};
     }
 `
 
@@ -168,9 +207,8 @@ export const Cell = styled.div`
     justify-content: center;
     color: #94A6BE;
     font-size: 10px;
-    line-height: 1;
-    letter-spacing: -0.2px;
     cursor: pointer;
+    transition: all .1s ease-in-out;
 
     @media screen and (max-width: 660px) {
         width: 42px;
@@ -189,15 +227,6 @@ export const Cell = styled.div`
         width: 32px;
         height: 32px;
         font-size: 12px;
-    }
-
-    &:hover {
-        background-color: ${({theme}) => theme === 'light' ? '#EAEEF6' : '#151419'};
-    }
-
-    &.active {
-        background-color: #94A6BE;
-        color: ${({theme}) => theme === 'light' ? '#FFFFFF' : '#151419'};
     }
 
     &.current {
@@ -221,9 +250,11 @@ export const Text = styled.p`
     color: #94A6BE;
     font-size: 10px;
     line-height: 1;
+    cursor: default;
 
     & span {
         color: ${({theme}) => theme === 'light' ? '#000000' : '#FFFFFF'};
+        cursor: default;
     }
 
     @media screen and (max-width: 660px) {
