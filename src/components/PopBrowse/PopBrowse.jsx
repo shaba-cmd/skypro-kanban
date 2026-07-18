@@ -44,7 +44,10 @@ function PopBrowse () {
     }
 
     const handleDateChange = (isoDate) => {
-        setBack(task.date === isoDate ? false : true)
+        const currentDate = new Date(task.date).toLocaleDateString()
+        const updateDate = new Date(isoDate).toLocaleDateString()
+
+        setBack(currentDate === updateDate ? false : true)
 
         setTaskUpdate(prev => ({
             ...prev,
@@ -52,12 +55,12 @@ function PopBrowse () {
         }));
     };
 
-    const handleChange = (field, value) => {
+    const handleChange = (value) => {
         setBack(task.description === value ? false : true)
 
         setTaskUpdate(e => ({
             ...e,
-            [field]: value.trim() === '' ? ' ' : value,
+            description: value.trim() === '' ? ' ' : value,
         }))
     }
 
@@ -68,7 +71,7 @@ function PopBrowse () {
             .then((data) => {
                 setTasks(data);
                 setTask({ ...taskUpdate, _id: task._id });
-                setBack(false)
+                navigate('/')
                 toast.success('Задача сохранена!')
             })
             .catch((err) => toast.error(err.message))
@@ -121,7 +124,7 @@ function PopBrowse () {
                                         readOnly={!edit}
                                         placeholder="Введите описание задачи..."
                                         value={taskUpdate.description === ' ' ? taskUpdate.description.trim() : taskUpdate.description}
-                                        onChange={(e) => handleChange("description", e.target.value)}
+                                        onChange={(e) => handleChange(e.target.value)}
                                     >
                                     </Textarea>
                                 </FormBlock>
@@ -143,21 +146,22 @@ function PopBrowse () {
                                 <p>{taskUpdate.topic}</p>
                             </CatTheme>
                         </div>
-                        <div className="pop-browse__btn-browse">
-                            <Group>
-                                <Button 
-                                    className="_btn-bor"
-                                    onClick={() => setEdit(true)}
-                                >Редактировать задачу</Button>
+                        {!edit ?
+                            <div className="pop-browse__btn-browse">
+                                <Group>
+                                    <Button 
+                                        className="_btn-bor"
+                                        onClick={() => edit ? setEdit(false) : setEdit(true)}
+                                        >Редактировать задачу</Button>
 
-                                <Button 
-                                    className="_btn-bor" 
-                                    onClick={handleDelete}
-                                >{loading ? 'Удаление...' : 'Удалить задачу'}</Button>
-                            </Group>
-                            <Link to='/'><Button className="_btn-bg _hover01">Закрыть</Button></Link>
-                        </div>
-                        {edit && 
+                                    <Button 
+                                        className="_btn-bor" 
+                                        onClick={handleDelete}
+                                        >{loading ? 'Удаление...' : 'Удалить задачу'}</Button>
+                                </Group>
+                                <Link to='/'><Button className="_btn-bg _hover01">Закрыть</Button></Link>
+                            </div>
+                            :
                             <div className="pop-browse__btn-edit">
                                 <Group>
                                     <Button 
@@ -177,10 +181,7 @@ function PopBrowse () {
                                         onClick={handleDelete}
                                     >{loading ? 'Удаление...' : 'Удалить задачу'}</Button>
                                 </Group>
-                                <Button 
-                                    className="_btn-bg _hover01" 
-                                    onClick={() => setEdit(false)}
-                                >Закрыть</Button>
+                                <Link to='/'><Button className="_btn-bg _hover01">Закрыть</Button></Link>
                             </div>
                         }
                     </Content>

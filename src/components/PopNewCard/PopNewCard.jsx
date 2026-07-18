@@ -5,15 +5,21 @@ import { postTasks } from "../../services/api";
 import { AuthContext, LoadingContext, TaskContext, ThemeContext } from "../../context/ContextAPI";
 import { useProvider } from "../../hooks/useProvider";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 function PopNewCard () {
+    const navigate = useNavigate()
     const newCard = true
     const { user } = useProvider(AuthContext)
-    const { setTasks } = useProvider(TaskContext)
+    const { tasks, setTasks } = useProvider(TaskContext)
     const { loading, setLoading } = useProvider(LoadingContext)
     const { theme } = useProvider(ThemeContext)
     const [isActive, setIsActive] = useState(2)
-    const [count, setCount] = useState(0)
+    const themeTask = [
+        {id: 1, theme: 'Web Design'},
+        {id: 2, theme: 'Research'},
+        {id: 3, theme: 'Copywriting'},
+    ]
     const [task, setTask] = useState({
         title: " ",
         topic: "Research",
@@ -21,12 +27,14 @@ function PopNewCard () {
         description: " ",
         date: new Date().toISOString(),
     });
-
-    const themeTask = [
-        {id: 1, theme: 'Web Design'},
-        {id: 2, theme: 'Research'},
-        {id: 3, theme: 'Copywriting'},
-    ]
+    const getNextCount = () => {
+        const numbers = tasks
+            .map(t => t.title.match(/Новая задача (\d+)!/))
+            .filter(Boolean)
+            .map(m => parseInt(m[1]));
+        
+        return numbers.length > 0 ? Math.max(...numbers) + 1 : 1;
+    };
 
     const handleDateChange = (isoDate) => {
         setTask(prev => ({
@@ -53,11 +61,9 @@ function PopNewCard () {
         let finalTask = { ...task };
 
         if (!task.title.trim()) {
-            const newCount = count + 1;
-            setCount(newCount);
             finalTask = {
                 ...finalTask,
-                title: `Новая задача ${newCount}!`,
+                title: `Новая задача ${getNextCount()}!`,
             };
         }
 
@@ -73,6 +79,7 @@ function PopNewCard () {
                     date: new Date().toISOString(),
                 }));
                 setIsActive(2)
+                navigate('/')
                 toast.success("Новая задача добавлена!");
             })
         } catch (err) {
@@ -141,7 +148,7 @@ function PopNewCard () {
                             </Themes>
                         </Categories>
 
-                        <Create className="_hover01" onClick={handleSubmit} disabled={loading}>
+                        <Create className="_hover01" onClick={handleSubmit}>
                             {loading ? "Создание..." : "Создать задачу"}
                         </Create>
                     </Content>
