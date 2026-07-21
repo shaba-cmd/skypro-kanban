@@ -1,19 +1,19 @@
 import { useEffect, useState } from "react";
 import Calendar from "../Calendar/Calendar";
-import { Browse, Container, Block, Content, TopBlock, Status, Themes, Theme, Ttl, Wrap, CatP, CatTheme, Form, FormBlock, Textarea, Group, Button, Error } from "./PopBrowse.styled";
+import { Browse, Container, Block, Content, TopBlock, Status, Themes, Theme, Ttl, Wrap, CatP, CatTheme, Form, FormBlock, Textarea, Group, Button } from "./PopBrowse.styled";
 import { Link, useNavigate } from "react-router-dom";
 import { deleteTasks, putTasks } from "../../services/api";
 import { AuthContext, LoadingContext, TaskContext, ThemeContext } from "../../context/ContextAPI";
 import { useProvider } from "../../hooks/useProvider";
+import { toast } from "react-toastify";
 
 function PopBrowse () {
+    const navigate = useNavigate()
     const { user } = useProvider(AuthContext)
-    const { task, setTasks } = useProvider(TaskContext)
+    const { task, setTask, setTasks } = useProvider(TaskContext)
     const { loading, setLoading } = useProvider(LoadingContext)
     const { theme } = useProvider(ThemeContext)
-    const navigate = useNavigate()
     const [edit, setEdit] = useState(false) 
-    const [error, setError] = useState(null) 
     const [saved, setSaved] = useState(false) 
     const [back, setBack] = useState(false) 
     const [taskUpdate, setTaskUpdate] = useState({
@@ -23,7 +23,7 @@ function PopBrowse () {
         description: task.description,
         date: task.date,
     })
-    
+
     useEffect(() => {
         if (!taskUpdate.topic) {
             navigate('/');
@@ -36,19 +36,31 @@ function PopBrowse () {
         deleteTasks({ token: user.token, id: task._id })
             .then((data) => {
                 setTasks(data);
-                setError(null);
                 navigate('/')
+                toast.success('Задача удалена!')
             })
-            .catch((err) => setError(err.message))
+            .catch((err) => toast.error(err.message))
             .finally(() => setLoading(false));
     }
 
-    const handleChange = (field, value) => {
+    const handleDateChange = (isoDate) => {
+        const currentDate = new Date(task.date).toLocaleDateString()
+        const updateDate = new Date(isoDate).toLocaleDateString()
+
+        setBack(currentDate === updateDate ? false : true)
+
+        setTaskUpdate(prev => ({
+            ...prev,
+            date: isoDate
+        }));
+    };
+
+    const handleChange = (value) => {
         setBack(task.description === value ? false : true)
 
         setTaskUpdate(e => ({
             ...e,
-            [field]: value.trim() === '' ? ' ' : value,
+            description: value.trim() === '' ? ' ' : value,
         }))
     }
 
@@ -58,10 +70,11 @@ function PopBrowse () {
         putTasks({ token: user.token, id: task._id, task: taskUpdate })
             .then((data) => {
                 setTasks(data);
-                setError(null);
-                setBack(false)
+                setTask({ ...taskUpdate, _id: task._id });
+                navigate('/')
+                toast.success('Задача сохранена!')
             })
-            .catch((err) => setError(err.message))
+            .catch((err) => toast.error(err.message))
             .finally(() => setSaved(false));
     }
 
@@ -111,12 +124,17 @@ function PopBrowse () {
                                         readOnly={!edit}
                                         placeholder="Введите описание задачи..."
                                         value={taskUpdate.description === ' ' ? taskUpdate.description.trim() : taskUpdate.description}
-                                        onChange={(e) => handleChange("description", e.target.value)}
+                                        onChange={(e) => handleChange(e.target.value)}
                                     >
                                     </Textarea>
                                 </FormBlock>
                             </Form>
-                            <Calendar />
+                            <Calendar 
+                                edit={edit}
+                                key={taskUpdate.date}
+                                selectedDate={taskUpdate.date} 
+                                onDateChange={handleDateChange} 
+                            />
                         </Wrap>
                         <div>
                             <CatP className="subttl">Категория</CatP>
@@ -128,21 +146,22 @@ function PopBrowse () {
                                 <p>{taskUpdate.topic}</p>
                             </CatTheme>
                         </div>
-                        <div className="pop-browse__btn-browse">
-                            <Group>
-                                <Button 
-                                    className="_btn-bor"
-                                    onClick={() => setEdit(true)}
-                                >Редактировать задачу</Button>
+                        {!edit ?
+                            <div className="pop-browse__btn-browse">
+                                <Group>
+                                    <Button 
+                                        className="_btn-bor"
+                                        onClick={() => edit ? setEdit(false) : setEdit(true)}
+                                        >Редактировать задачу</Button>
 
-                                <Button 
-                                    className="_btn-bor" 
-                                    onClick={handleDelete}
-                                >{loading ? 'Удаление...' : 'Удалить задачу'}</Button>
-                            </Group>
-                            <Link to='/'><Button className="_btn-bg _hover01">Закрыть</Button></Link>
-                        </div>
-                        {edit && 
+                                    <Button 
+                                        className="_btn-bor" 
+                                        onClick={handleDelete}
+                                        >{loading ? 'Удаление...' : 'Удалить задачу'}</Button>
+                                </Group>
+                                <Link to='/'><Button className="_btn-bg _hover01">Закрыть</Button></Link>
+                            </div>
+                            :
                             <div className="pop-browse__btn-edit">
                                 <Group>
                                     <Button 
@@ -162,13 +181,9 @@ function PopBrowse () {
                                         onClick={handleDelete}
                                     >{loading ? 'Удаление...' : 'Удалить задачу'}</Button>
                                 </Group>
-                                <Button 
-                                    className="_btn-bg _hover01" 
-                                    onClick={() => setEdit(false)}
-                                >Закрыть</Button>
+                                <Link to='/'><Button className="_btn-bg _hover01">Закрыть</Button></Link>
                             </div>
                         }
-                        {error && <Error>{error}</Error>}
                     </Content>
                 </Block>
             </Container>

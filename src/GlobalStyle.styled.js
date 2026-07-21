@@ -43,7 +43,7 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   ._hover01:hover {
-    background-color: #33399b;
+    background-color: #33399b ;
   }
 
   ._hover02:hover, .header__user:hover {
@@ -111,8 +111,8 @@ export const GlobalStyle = createGlobalStyle`
     color: ${({theme}) => theme === 'light' ? '#FFFFFF' : '#151419'} !important;
   }
 
-  ._current {
-    font-weight: 700;
+  ._weekend {
+    color: #ff3434c0;
   }
 
   ._btn-bor {

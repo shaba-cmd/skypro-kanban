@@ -9,11 +9,9 @@ export const colors = {
 
 export const cardAnimation = keyframes`
     0% {
-        height: 0;
         opacity: 0;
     }
     100% {
-        height: auto;
         opacity: 1;
     }
 `
@@ -25,7 +23,7 @@ export const Item = styled.div`
 
 export const SCard = styled.div`
     width: 220px;
-    height: 130px;
+    min-height: 130px;
     background-color: ${({theme}) => theme === 'light' ? '#FFFFFF' : '#20202C'};
     border-radius: 10px;
     display: flex;
@@ -33,6 +31,13 @@ export const SCard = styled.div`
     align-items: flex-start;
     justify-content: stretch;
     padding: 15px 13px 19px;
+    cursor: pointer;
+    ${({ $isDragging }) => $isDragging && `
+        opacity: 0.5;
+        transform: scale(1.02);
+        box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+        z-index: 100;
+    `}
 
     @media screen and (max-width: 1200px) {
         width: 220px;
@@ -43,7 +48,7 @@ export const SCard = styled.div`
         align-items: flex-start;
         justify-content: stretch;
         padding: 15px 13px 19px;
-    }
+    }    
 `;
 
 export const Group = styled.div`
@@ -60,11 +65,11 @@ export const Theme = styled.h3`
     height: 20px;
     padding: 5px 14px;
     border-radius: 18px;
-    background-color: ${({$type}) => {
+    background-color: ${({$type, theme}) => {
         return (
-            $type === 'Web Design' ? colors.orange[0]
-            : $type === 'Research' ? colors.green[0]  
-            : $type === 'Copywriting' ? colors.purple[0]
+            $type === 'Web Design' ? theme === 'light' ? colors.orange[0] : colors.orange[1]
+            : $type === 'Research' ? theme === 'light' ? colors.green[0] : colors.green[1]
+            : $type === 'Copywriting' ? theme === 'light' ? colors.purple[0] : colors.purple[1]
             : colors.gray[0]
         )
     }};
@@ -73,11 +78,11 @@ export const Theme = styled.h3`
         font-size: 10px;
         font-weight: 600;
         line-height: 10px;
-        color: ${({$type}) => {
+        color: ${({$type, theme}) => {
             return (
-                $type === 'Web Design' ? colors.orange[1]
-                : $type === 'Research' ? colors.green[1]  
-                : $type === 'Copywriting' ? colors.purple[1]
+                $type === 'Web Design' ? theme === 'light' ? colors.orange[1] : colors.orange[0]
+                : $type === 'Research' ? theme === 'light' ? colors.green[1] : colors.green[0]
+                : $type === 'Copywriting' ? theme === 'light' ? colors.purple[1] : colors.purple[0]
                 : colors.gray[1]
             )
         }};
@@ -121,6 +126,7 @@ export const Title = styled.div`
     line-height: 18px;
     color: ${({theme}) => theme === 'light' ? '#000' : '#FFF'};
     margin-bottom: 10px;
+    cursor: pointer;
 `;
 
 export const Content = styled.div`

@@ -60,6 +60,7 @@ export const Theme = styled.div`
         -webkit-appearance: none;
         -moz-appearance: none;
         appearance: none;
+        cursor: pointer;
     }
 
     & input[type=checkbox]::before {
@@ -85,6 +86,7 @@ export const Button = styled(Link)`
     color: ${({theme}) => theme === 'light' ? '#565EEF' : '#FFFFFF'};
     border-radius: 4px;
     border: 1px solid ${({theme}) => theme === 'light' ? '#565EEF' : '#FFFFFF'};
+    transition: all .1s ease-in-out;
 
     &:hover {
         background-color: #33399b;

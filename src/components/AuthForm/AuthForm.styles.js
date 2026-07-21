@@ -105,6 +105,7 @@ export const Button = styled.button `
     font-weight: 600;
     letter-spacing: -0.14px;
     color: #FFFFFF;
+    transition: all .1s ease-in-out;
 
     &:hover {
         background-color: #33399b;
@@ -128,5 +129,11 @@ export const Group = styled.div `
 
     & a {
         text-decoration: underline;
+        transition: all .1s ease-in-out;
+    }
+
+    & a:hover {
+        text-decoration: underline;
+        color: #565eef95;
     }
 `

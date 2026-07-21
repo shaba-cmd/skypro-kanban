@@ -1,18 +1,25 @@
 import { useState } from "react";
 import Calendar from "../Calendar/Calendar";
-import { NewCard, Container, Block, Content, Ttl, Close, Wrap, Categories, CatP, Themes, Theme, Form, FormBlock, Input, Textarea, Create, Error } from "./PopNewCard.styled";
+import { NewCard, Container, Block, Content, Ttl, Close, Wrap, Categories, CatP, Themes, Theme, Form, FormBlock, Input, Textarea, Create } from "./PopNewCard.styled";
 import { postTasks } from "../../services/api";
 import { AuthContext, LoadingContext, TaskContext, ThemeContext } from "../../context/ContextAPI";
 import { useProvider } from "../../hooks/useProvider";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 function PopNewCard () {
+    const navigate = useNavigate()
+    const newCard = true
     const { user } = useProvider(AuthContext)
-    const { setTasks } = useProvider(TaskContext)
+    const { tasks, setTasks } = useProvider(TaskContext)
     const { loading, setLoading } = useProvider(LoadingContext)
     const { theme } = useProvider(ThemeContext)
     const [isActive, setIsActive] = useState(2)
-    const [error, setError] = useState(null);
-    const [count, setCount] = useState(0)
+    const themeTask = [
+        {id: 1, theme: 'Web Design'},
+        {id: 2, theme: 'Research'},
+        {id: 3, theme: 'Copywriting'},
+    ]
     const [task, setTask] = useState({
         title: " ",
         topic: "Research",
@@ -20,12 +27,21 @@ function PopNewCard () {
         description: " ",
         date: new Date().toISOString(),
     });
+    const getNextCount = () => {
+        const numbers = tasks
+            .map(t => t.title.match(/Новая задача (\d+)!/))
+            .filter(Boolean)
+            .map(m => parseInt(m[1]));
+        
+        return numbers.length > 0 ? Math.max(...numbers) + 1 : 1;
+    };
 
-    const themeTask = [
-        {id: 1, theme: 'Web Design'},
-        {id: 2, theme: 'Research'},
-        {id: 3, theme: 'Copywriting'},
-    ]
+    const handleDateChange = (isoDate) => {
+        setTask(prev => ({
+            ...prev,
+            date: isoDate
+        }));
+    };
 
     const handleChange = (field, value) => {
         setTask(prev => ({
@@ -41,16 +57,13 @@ function PopNewCard () {
 
     const handleSubmit = async () => {
         setLoading(true);
-        setError(null);
 
         let finalTask = { ...task };
 
         if (!task.title.trim()) {
-            const newCount = count + 1;
-            setCount(newCount);
             finalTask = {
                 ...finalTask,
-                title: `Новая задача ${newCount}!`,
+                title: `Новая задача ${getNextCount()}!`,
             };
         }
 
@@ -62,11 +75,15 @@ function PopNewCard () {
                     ...prev,
                     title: ' ',
                     description: ' ',
+                    topic: 'Research',
+                    date: new Date().toISOString(),
                 }));
                 setIsActive(2)
+                navigate('/')
+                toast.success("Новая задача добавлена!");
             })
         } catch (err) {
-            setError(err.message);
+            toast.error(err.message);
         } finally {
             setLoading(false);
         }
@@ -106,7 +123,12 @@ function PopNewCard () {
                                     ></Textarea>
                                 </FormBlock>
                             </Form>
-                            <Calendar />
+                            <Calendar 
+                                key={task.date}
+                                newCard={newCard}
+                                selectedDate={task.date} 
+                                onDateChange={handleDateChange} 
+                            />
                         </Wrap>
                         <Categories>
                             <CatP className="subttl">Категория</CatP>
@@ -126,11 +148,9 @@ function PopNewCard () {
                             </Themes>
                         </Categories>
 
-                        <Create className="_hover01" onClick={handleSubmit} disabled={loading}>
+                        <Create className="_hover01" onClick={handleSubmit}>
                             {loading ? "Создание..." : "Создать задачу"}
                         </Create>
-
-                        {error && <Error>{error}</Error>}
                     </Content>
                 </Block>
             </Container>

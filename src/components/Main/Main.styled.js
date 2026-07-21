@@ -24,3 +24,10 @@ export const Content = styled.div`
         display: block;
     }
 `;
+
+
+export const Empty = styled.p`
+    text-align: center;
+    margin-top: 80px;
+    font-size: 22px;
+`;

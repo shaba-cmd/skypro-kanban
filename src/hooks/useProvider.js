@@ -6,5 +6,6 @@ export function useProvider(provider) {
   if (!context) {
     throw new Error('useProvider должен использоваться внутри соответствующего Provider');
   }
+  
   return context;
 }

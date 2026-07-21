@@ -78,6 +78,7 @@ export const ExitYes = styled.button`
     letter-spacing: -0.14px;
     color: #FFFFFF;
     margin-right: 10px;
+    transition: all .1s ease-in-out;
 
     &:hover{background-color: #33399b;}
 
@@ -112,6 +113,7 @@ export const ExitNo = styled(Link)`
     font-weight: 500;
     letter-spacing: -0.14px;
     color: ${({theme}) => theme === 'light' ? '#565EEF' : 'var(--palette-navy-60, #FFFFFF)'};
+    transition: all .1s ease-in-out;
 
     &:hover{
         background-color: #33399b;

@@ -4,44 +4,66 @@ import { Item, SCard, Group, Theme, Button, Dot, Title, Content, Date } from "./
 import { useState } from "react";
 import { useProvider } from "../../hooks/useProvider";
 import { AuthContext, TaskContext, ThemeContext } from "../../context/ContextAPI";
+import { useSortable } from '@dnd-kit/sortable'
+import { CSS } from '@dnd-kit/utilities'
+import { toast } from "react-toastify";
 
-function Card ({ topic, title, date, status, id, type = topic }) {
+function Card ({ task, type = task.topic }) {
     const { user } = useProvider(AuthContext)
     const { setTask } = useProvider(TaskContext)
     const { theme } = useProvider(ThemeContext)
+
     const [anim, setAnim] = useState(false)
-    const [error, setError] = useState(null)
+
     const navigate = useNavigate()
     const formatDate = (isoString) => {
         const [year, month, day] = isoString.slice(0, 10).split('-');
         return `${day}.${month}.${year.slice(2)}`;
     }
+    const {
+        attributes,
+        listeners,
+        setNodeRef,
+        transform,
+        transition,
+        isDragging,
+    } = useSortable({ id: task._id })
+    const style = {
+        transform: CSS.Transform.toString(transform),
+        transition,
+    }
 
     const handleClick = () => {
         setAnim(true)
-        setError(null)
 
-        getTasksId({ token: user.token, id: id._id })
+        getTasksId({ token: user.token, id: task._id })
             .then((data) => {
                 setTask(data);
-                navigate('/card/' + id._id)
+                navigate('/card/' + task._id)
             })
-            .catch ((err) => setError(err.message)) 
+            .catch ((err) =>  toast.error(err.message)) 
             .finally(() => setAnim(false))
     }
-
-    error && alert(error)
 
     return (
         <>
             <Item>
-                <SCard data-status={status} theme={theme}>
+                <SCard 
+                    onClick={handleClick}
+                    data-status={task.status} 
+                    theme={theme}
+                    ref={setNodeRef}
+                    style={style}
+                    {...attributes}
+                    {...listeners}
+                    $isDragging={isDragging}
+                >
                     <Group>
-                        <Theme $type={type}>
-                            <p>{topic}</p>
+                        <Theme $type={type} theme={theme}>
+                            <p>{task.topic}</p>
                         </Theme>
 
-                        <Button $anim={anim} onClick={handleClick}>
+                        <Button $anim={anim}>
                             <Dot $anim={anim} $delay={0} />
                             <Dot $anim={anim} $delay={0.2} />
                             <Dot $anim={anim} $delay={0.4} />
@@ -49,7 +71,7 @@ function Card ({ topic, title, date, status, id, type = topic }) {
                     </Group>
 
                     <Content>
-                        <Title onClick={handleClick} theme={theme}>{title}</Title>
+                        <Title theme={theme}>{task.title}</Title>
 
                         <Date>
                             <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 13 13" fill="none">
@@ -63,7 +85,7 @@ function Card ({ topic, title, date, status, id, type = topic }) {
                                 </clipPath>
                                 </defs>
                             </svg>
-                            <p>{formatDate(date)}</p>
+                            <p>{formatDate(task.date)}</p>
                         </Date>
                     </Content>
                 </SCard>

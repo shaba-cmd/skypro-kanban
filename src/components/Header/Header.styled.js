@@ -5,6 +5,11 @@ export const SHeader = styled.header`
     width: 100%;
     margin: 0 auto;
     background-color: ${({theme}) => theme === 'light' ? '#FFFFFF' : '#20202C'};
+
+    @media screen and (max-width: 660px) {
+        position: fixed;
+        z-index: 4;
+    }
 `;
 
 export const Block = styled.div`
@@ -43,15 +48,17 @@ export const Button = styled(Link)`
     font-weight: 400;
     margin-right: 20px;
     text-align: center;
+    transition: all .1s ease-in-out;
 
-    &:hover{background-color: #33399b;}
+    &:hover{
+        background-color: #33399b;
+    }
 
     & a {
         color: #FFFFFF;
     }
 
     @media screen and (max-width: 495px) {
-        z-index: 3;
         position: fixed;
         left: 16px;
         bottom: 30px;
@@ -74,6 +81,7 @@ export const User = styled.p`
     line-height: 20px;
     color: ${({theme}) => theme === 'light' ? '#565EEF' : '#FFFFFF'};
     cursor: pointer;
+    transition: all .1s ease-in-out;
 
     &::after {
         content: "";
@@ -84,9 +92,11 @@ export const User = styled.p`
         border-left: 1.9px solid ${({theme}) => theme === 'light' ? '#565EEF' : '#FFFFFF'};
         border-bottom: 1.9px solid ${({theme}) => theme === 'light' ? '#565EEF' : '#FFFFFF'};
         transform: rotate(-45deg);
-        margin: -6px 0 0 5px;
+        margin: 0 0 0 5px;
         padding: 0;
     }
 
-    &:hover {color: #33399b;}
+    &:hover {
+        color: ${({theme}) => theme === 'light' ? '#33399b' : '#5c92ff'}
+    }
 `;

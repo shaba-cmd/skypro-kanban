@@ -26,13 +26,25 @@ export const Title = styled.div`
 `;
 
 export const Cards = styled.div`
-    width: 100%;
+    min-height: 78vh;
     display: block;
     position: relative;
+    transition: background 0.2s;
+    ${({ $isOver }) => $isOver && `
+        background: rgba(86, 94, 239, 0.1);
+        border-radius: 8px; 
+    `}
 
     @media screen and (max-width: 1200px) {
         width: 100%;
         display: flex;
         overflow-y: auto;
+        min-height: 100px;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+        
+        &::-webkit-scrollbar {
+            display: none;
+        }
     }
 `;
