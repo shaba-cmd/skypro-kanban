@@ -2,6 +2,10 @@
 
 Канбан доска для управления задачами.
 
+## Деплой
+
+https://skypro-kanban-ivory.vercel.app/
+
 ## Стек технологий
 
 React + Vite (с библиоткеами - react-router, axios, react-toastify, styled-components, @dnd-kit/core, /sortable, /utilities), 
